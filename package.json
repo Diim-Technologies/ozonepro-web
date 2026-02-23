@@ -1,0 +1,43 @@
+{
+  "name": "ozone",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.5.5",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fontsource/figtree": "^4.5.3",
+    "@types/node": "18.15.12",
+    "@types/react": "18.0.37",
+    "@types/react-dom": "18.0.11",
+    "axios": "^1.4.0",
+    "bcryptjs": "^2.4.3",
+    "crypto-js": "^4.1.1",
+    "framer-motion": "^10.12.4",
+    "iconsax-react": "^0.0.8",
+    "next": "13.3.0",
+    "persona": "^4.8.0",
+    "react": "^18.2.0",
+    "react-dom": "18.2.0",
+    "react-iconly": "^2.2.10",
+    "react-icons": "^4.8.0",
+    "react-phone-input-2": "^2.15.1",
+    "react-phone-number-input": "^3.2.23",
+    "react-query": "^3.39.3",
+    "styled-components": "^5.3.11",
+    "typescript": "5.0.4"
+  },
+  "browserslist": [
+      "chrome 64",
+      "edge 79",
+      "firefox 67",
+      "opera 51",
+      "safari 12"
+    ]
+}
