@@ -61,7 +61,9 @@ export default function MoneyExchange() {
   const testimonialContent = [
     { id: 0, img: "/images/avatar-1.jpg", name: "Sarah K.", content: "The fastest exchange I've ever used. Rates are consistently better than my bank." },
     { id: 1, img: "/images/avatar-2.jpg", name: "Michael S.", content: "I trust Ozone with my business transfers. Reliable and professional every time." },
-    { id: 2, img: "/images/avatar-3.jpg", name: "Emma L.", content: "Incredible UX. This redesigned calculator makes cross-border payments simple." }
+    { id: 2, img: "/images/avatar-3.jpg", name: "Emma L.", content: "Incredible UX. This redesigned calculator makes cross-border payments simple." },
+    { id: 3, img: "/images/avatar-1.jpg", name: "David R.", content: "Highly recommend for anyone needing seamless currency exchange." },
+    { id: 4, img: "/images/avatar-2.jpg", name: "Sophia M.", content: "Customer support is quick, and the transfers are even quicker." }
   ];
 
   return (

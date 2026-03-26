@@ -19,5 +19,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/features/Terms/terms.jsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "ozone-backend"]
 }

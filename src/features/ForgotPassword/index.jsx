@@ -13,6 +13,7 @@ import {
   useColorModeValue,
   IconButton,
   Icon,
+  HStack,
 } from "@chakra-ui/react";
 import { ArrowLeft, Sms, TickCircle } from "iconsax-react";
 import changePasswordHooks from "./hooks";
