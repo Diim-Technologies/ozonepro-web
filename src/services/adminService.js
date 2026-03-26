@@ -22,10 +22,25 @@ export const fetchAllTransfers = async () => {
   return data;
 };
 
+// ─── KYC Admin Services ───────────────────────────────────────────────────────
+
 export const fetchAllKyc = async () => {
-  const { data } = await authedFetch.get(`${BASE_URL}/admin/kyc`);
+  // Backend endpoint: GET /kyc/admin/all → returns { data: [...], meta: {...} }
+  const { data } = await authedFetch.get(`${BASE_URL}/kyc/admin/all`);
+  return data?.data ?? data;
+};
+
+export const fetchKycById = async (id) => {
+  const { data } = await authedFetch.get(`${BASE_URL}/kyc/admin/${id}`);
+  return data?.kyc ?? data;
+};
+
+export const adminUpdateKycStatus = async ({ id, status }) => {
+  const { data } = await authedFetch.patch(`${BASE_URL}/kyc/admin/${id}/status`, { status });
   return data;
 };
+
+// ─── Transfer & Rate Services ─────────────────────────────────────────────────
 
 export const updateTransferStatus = async (id, status) => {
   const { data } = await authedFetch.patch(`${BASE_URL}/admin/transfers/${id}/status`, { status });

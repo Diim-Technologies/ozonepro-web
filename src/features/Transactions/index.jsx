@@ -48,9 +48,12 @@ export default function TransactionsHistory() {
   const cardBg = useColorModeValue("white", "gray.800");
 
   // Combine and sort all activities
+  const transferList = transfers?.data || (Array.isArray(transfers) ? transfers : []);
+  const exchangeList = exchanges?.data || (Array.isArray(exchanges) ? exchanges : []);
+
   const allActivities = [
-    ...(transfers || []).map(t => ({ ...t, activityType: "TRANSFER" })),
-    ...(exchanges || []).map(e => ({ ...e, activityType: "EXCHANGE" }))
+    ...transferList.map(t => ({ ...t, activityType: "TRANSFER" })),
+    ...exchangeList.map(e => ({ ...e, activityType: "EXCHANGE" }))
   ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const filteredData = allActivities.filter(item => {

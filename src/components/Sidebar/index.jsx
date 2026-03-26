@@ -51,7 +51,7 @@ export default function Sidebar({ onClose }) {
     {
       label: "Transactions",
       icon: Receipt21,
-      path: "/dashboard/history",
+      path: "/dashboard/transactions",
     },
     {
       label: "My Profile",

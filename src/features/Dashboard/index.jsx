@@ -121,7 +121,9 @@ export default function DashboardPage() {
           <Box gridColumn={{ lg: "span 2" }} bg={cardBg} p={8} rounded="3xl" boxShadow="xl" border="1px" borderColor="gray.100" minH="400px">
             <Flex justify="space-between" align="center" mb={6}>
               <Heading size="md" color={textColor}>Recent Transactions</Heading>
-              <Button size="sm" variant="ghost" colorScheme="blue">View All</Button>
+              <Link href="/dashboard/transactions">
+                <Button size="sm" variant="ghost" colorScheme="blue">View All</Button>
+              </Link>
             </Flex>
 
             {isTransactionsLoading ? (
@@ -141,7 +143,7 @@ export default function DashboardPage() {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {transactions.map((tx, i) => (
+                    {(transactions?.data || (Array.isArray(transactions) ? transactions : [])).slice(0, 5).map((tx, i) => (
                       <Tr key={i}>
                         <Td>
                           <HStack spacing={3}>
