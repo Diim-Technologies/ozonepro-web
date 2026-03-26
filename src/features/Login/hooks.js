@@ -1,21 +1,19 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useToast } from "@chakra-ui/react";
 import { useMutation } from "react-query";
 import { loginUser } from "../../services/authService";
-import Router, { useRouter } from "next/router";
-import { useContext } from "react";
+import { useRouter } from "next/router";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function loginHooks() {
-  const { query } = useRouter();
   const router = useRouter();
   const toast = useToast();
   const [loginDetails, setLoginDetails] = useState({
-    identifier: "",
+    email: "",
     password: "",
   });
 
-  const { userId, handleUserId, clientPhoneNumber } = useContext(UserContext);
+  const { handleUser } = useContext(UserContext);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -25,32 +23,25 @@ export default function loginHooks() {
   const { isLoading, mutate } = useMutation(loginUser, {
     onSuccess: (data) => {
       console.log(data);
+      // Backend returns { message, user, accessToken }
+      localStorage.setItem("ozone_access_token", data.accessToken);
+      localStorage.setItem("user_id", data.user.id);
 
-      localStorage.setItem("OZONE_KEY", data.jwt);
+      handleUser(data.user);
 
-      console.log(data.user.userId);
-
-      handleUserId(data.user.userId);
-
-      const dataFromLocalStorage = JSON.parse(
-        localStorage.getItem("transactionDetails")
-      );
-
-      console.log(dataFromLocalStorage);
-
-      // const message = `Hi there! I'm interested in exchanging ${dataFromLocalStorage?.exchangeAmount} of ${dataFromLocalStorage?.currency1} to ${dataFromLocalStorage?.currency2}. Can we proceed with the transaction?`;
-
-      // const url = `https://wa.me/${clientPhoneNumber}?text=${message}`;
-
-      // Use router.push to open a new window
-      router.push("/dashboard/profile");
+      if (data.user.role === "ADMIN") {
+        router.push("/admin");
+      } else {
+        router.push("/dashboard");
+      }
 
       localStorage.removeItem("transactionDetails");
     },
-    onError: ({ response }) => {
+    onError: (error) => {
+      const message = error.response?.data?.message || "Login failed. Check your credentials.";
       toast({
         position: "top",
-        title: response?.data.error.message,
+        title: message,
         status: "error",
         variant: "top-accent",
         isClosable: true,
@@ -62,12 +53,10 @@ export default function loginHooks() {
     event.preventDefault();
 
     mutate({
-      identifier: loginDetails.identifier,
+      email: loginDetails.email,
       password: loginDetails.password,
     });
   };
-
-  console.log(userId);
 
   return {
     handleChange,

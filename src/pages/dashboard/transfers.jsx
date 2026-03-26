@@ -1,11 +1,11 @@
 import React from "react";
-import ProfilePage from "../../features/Profile";
+import TransfersPage from "../../features/Transfers";
 import DashboardLayout from "../../components/DashboardLayout";
 
-export default function Profile() {
+export default function Transfers() {
   return (
     <DashboardLayout>
-      <ProfilePage />
+      <TransfersPage />
     </DashboardLayout>
   );
 }

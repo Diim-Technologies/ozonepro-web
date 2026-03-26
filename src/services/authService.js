@@ -22,20 +22,22 @@ export const encryptPassword = async (payload) => {
   return data;
 }
 export const registerUser = async (payload) => {
-  console.log("Payload",payload)
-  const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL}/profiles`, payload);
-  localStorage.setItem("ozone_access_token", data.token);
-  localStorage.setItem("UIN", data.UIN);
+  console.log("Payload", payload)
+  const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/register`, payload);
+  localStorage.setItem("ozone_access_token", data.accessToken);
+  // localStorage.setItem("UIN", data.UIN); // remove if not in response
   return data;
 };
 
 export const loginUser = async (payload) => {
   const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/local`,
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/login`,
     payload
   );
+  localStorage.setItem("ozone_access_token", data.accessToken);
   return data;
 };
+
 
 export const initKyc = async (payload) => {
   const { data } = await axios.post(
@@ -45,25 +47,38 @@ export const initKyc = async (payload) => {
   return data;
 };
 
-export const setPassword = async (payload) => {
-  console.log(payload);
-  const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/profile/user/setpassword`,
+export const fetchProfile = async () => {
+  const { data } = await authedFetch.get(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/users/profile`
+  );
+  return data;
+};
+
+export const updateProfile = async (payload) => {
+  const { data } = await authedFetch.patch(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/users/profile`,
     payload
   );
   return data;
 };
 
-export const getUser = async (payload) => {
-  console.log(payload);
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/profile/user/${payload.queryKey[0]}`
+export const initiateTransfer = async (payload) => {
+  const { data } = await authedFetch.post(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/transfers`,
+    payload
   );
   return data;
 };
 
-export const getExchnagesByUserId = async (payload) => {
-  const tokenValue = localStorage.getItem("OZONE_KEY");
+export const fetchTransfers = async () => {
+  const { data } = await authedFetch.get(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/transfers`
+  );
+  return data;
+};
+
+export const getExchnagesByUserId = async () => {
+  const tokenValue = localStorage.getItem("ozone_access_token");
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_API_URL}/exchanges/user`,
     {
@@ -75,20 +90,4 @@ export const getExchnagesByUserId = async (payload) => {
   return data;
 };
 
-export const changePassword = async (payload) => {
-  console.log(payload);
-  const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/profile/user/changepassword`,
-    payload
-  );
-  return data;
-};
 
-export const completePasswordReset = async (payload) => {
-  console.log(payload);
-  const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/profile/user/resetpassword`,
-    payload
-  );
-  return data;
-};

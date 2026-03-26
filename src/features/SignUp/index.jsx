@@ -1,247 +1,264 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import Link from "next/link";
-import { TickSquare } from "react-iconly";
 import {
-	Flex,
-	Box,
-	Image,
-	HStack,
-	Text,
-	Spinner,
-	Checkbox,
-	Select,
-	useBreakpointValue,
+  Flex,
+  Box,
+  Image,
+  VStack,
+  Text,
+  Input,
+  Button,
+  FormControl,
+  FormLabel,
+  Heading,
+  HStack,
+  Checkbox,
+  Link as ChakraLink,
+  useColorModeValue,
+  SimpleGrid,
+
+  InputGroup,
+  InputRightElement,
+  IconButton,
 } from "@chakra-ui/react";
-import CustomInput from "../../components/Input";
-import { CustomButton } from "../../components/Button";
+import { motion } from "framer-motion";
+import { Eye, EyeSlash, ArrowRight, Login } from "iconsax-react";
 import signUpHooks from "./hooks";
-import CustomModal from "../../components/Modal";
-import AuthHero from "../../components/AuthHero";
-// import PhoneInput from "react-phone-number-input";
-import { FormControl, FormLabel } from "@chakra-ui/react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import "react-phone-number-input/style.css";
-import dynamic from "next/dynamic";
+
+const MotionBox = motion(Box);
 
 export default function SignUpPage() {
-	const {
-		handleChange,
-		handleSubmit,
-		signUpDetails,
-		passwordError,
-		profileLoading,
-		handleSaveSignUpDetails,
-		isSuccess,
-		formError,
-		phone,
-		handleConfirmPasswordChange,
-		handlePasswordChange,
-		handlePhoneChange,
-		handleCheckboxChange,
-		disabled,
-		passwordMatch,
-		handleSubmitTest
-	} = signUpHooks();
+  const {
+    handleChange,
+    handleSubmit,
+    signUpDetails,
+    handlePhoneChange,
+    isLoading,
+    disabled,
+    confirmPassword,
+    setConfirmPassword,
+  } = signUpHooks();
 
+  const [showPassword, setShowPassword] = React.useState(false);
+  const bgGradient = useColorModeValue(
+    "linear(to-br, blue.50, white)",
+    "linear(to-br, gray.900, blue.900)"
+  );
 
+  return (
+    <Flex h="100vh" w="full" bg={bgGradient} overflow="hidden">
+      {/* Left Section (Branding) */}
+      <Box
+        flex={1}
+        display={{ base: "none", lg: "flex" }}
+        alignItems="center"
+        justifyContent="center"
+        p={20}
+        position="relative"
+      >
+        <VStack spacing={8} align="start" zIndex={1} maxW="500px">
+          <Image src="/images/ozone-pro-logo.png" h="80px" />
+          <Heading fontSize="6xl" fontWeight="900" lineHeight="1.1" color="gray.900">
+            Start Your <Text as="span" color="primary.500">Journey</Text> with Ozone.
+          </Heading>
+          <Text fontSize="xl" color="gray.600" fontWeight="500">
+            Experience borderless financial freedom. Fast, secure, and built for the modern world.
+          </Text>
+          <Link href="/login">
+            <Button
+              variant="outline"
+              colorScheme="primary"
+              size="lg"
+              rounded="full"
+              leftIcon={<Login size="20" />}
+              px={10}
+            >
+              Sign In Instead
+            </Button>
+          </Link>
+        </VStack>
+        <Box
+          position="absolute"
+          bottom="-10%"
+          left="-10%"
+          w="600px"
+          h="600px"
+          bg="blue.500"
+          filter="blur(150px)"
+          opacity="0.05"
+          zIndex={0}
+        />
+      </Box>
 
-	const [showPersona, setShowPersona] = useState(false);
-	//   const PersonaComponent = dynamic(() => import('../../components/Persona/PersonaComponent'), {
-	//     ssr: false
-	// })
+      {/* Right Section (Form) */}
+      <Flex
+        w={{ base: "full", lg: "55%" }}
+        bg="white"
+        align="center"
+        justify="center"
+        px={{ base: 6, md: 16 }}
+        py={10}
+        boxShadow="-20px 0 50px rgba(0,0,0,0.05)"
+        overflowY="auto"
+      >
+        <MotionBox
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          w="full"
+          maxW="600px"
+        >
+          <VStack spacing={8} align="stretch" py={8}>
+            <VStack align="start" spacing={2}>
+              <Heading fontSize="4xl" fontWeight="800">Create Account</Heading>
+              <Text color="gray.500" fontSize="lg">Enter your details to get started</Text>
+            </VStack>
 
-	useEffect(() => {
-		if (isSuccess) {
-			setShowPersona(true);
-		} else {
-			setShowPersona(false);
-		}
-	}, [isSuccess]);
+            <VStack spacing={5} as="form" onSubmit={handleSubmit}>
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} w="full">
+                <FormControl isRequired>
+                  <FormLabel fontWeight="700">First Name</FormLabel>
+                  <Input
+                    name="firstName"
+                    placeholder="John"
+                    h="55px"
+                    bg="gray.50"
+                    border="none"
+                    rounded="xl"
+                    onChange={handleChange}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel fontWeight="700">Last Name</FormLabel>
+                  <Input
+                    name="lastName"
+                    placeholder="Doe"
+                    h="55px"
+                    bg="gray.50"
+                    border="none"
+                    rounded="xl"
+                    onChange={handleChange}
+                  />
+                </FormControl>
+              </SimpleGrid>
 
-	const hideBox = useBreakpointValue({ base: false, md: true });
+              <FormControl isRequired>
+                <FormLabel fontWeight="700">Email Address</FormLabel>
+                <Input
+                  name="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  h="55px"
+                  bg="gray.50"
+                  border="none"
+                  rounded="xl"
+                  onChange={handleChange}
+                />
+              </FormControl>
 
-	console.log(formError)
-	return (
-		<Box>
-			<Flex h="100vh">
-				<Box
-					// py="56px"
-					// px="38px"
-					h="100vh"
-					w={{ base: "full", md: "50%" }}
-					display={{ base: "none", lg: "flex" }}
-					alignItems="center"
-				>
-					<AuthHero />
-				</Box>
-				<Box
-					overflowY="scroll"
-					w={{ base: "full", lg: "50%" }}
-					p={{ base: "10px", md: "30px" }}
-				>
-					<Box w={{ base: "full", md: "80%" }} mx="auto">
-						<Image src="/images/ozone-pro-logo.png" h="100px" w="135px" />
+              <FormControl isRequired>
+                <FormLabel fontWeight="700">Phone Number</FormLabel>
+                <Box className="premium-phone-input">
+                  <PhoneInput
+                    country={"ca"}
+                    value={signUpDetails.phone}
+                    onChange={handlePhoneChange}
+                    inputStyle={{
+                      width: "100%",
+                      height: "55px",
+                      background: "#F7FAFC",
+                      border: "none",
+                      borderRadius: "12px",
+                      fontSize: "16px",
+                    }}
+                    buttonStyle={{
+                      background: "transparent",
+                      border: "none",
+                      paddingLeft: "8px",
+                    }}
+                  />
+                </Box>
+              </FormControl>
 
-						<Text
-							pt="30px"
-							fontSize={24}
-							fontWeight={600}
-							w={{ base: "full", md: "70%", lg: "50%" }}
-							textColor="blue.900"
-						>
-							Exchange your money with peace of mind
-						</Text>
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} w="full">
+                <FormControl isRequired>
+                  <FormLabel fontWeight="700">Password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                      h="55px"
+                      bg="gray.50"
+                      border="none"
+                      rounded="xl"
+                      onChange={handleChange}
+                    />
+                    <InputRightElement h="55px">
+                      <IconButton
+                        variant="ghost"
+                        icon={showPassword ? <EyeSlash size="20" /> : <Eye size="20" />}
+                        onClick={() => setShowPassword(!showPassword)}
+                      />
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel fontWeight="700">Confirm Password</FormLabel>
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    h="55px"
+                    bg="gray.50"
+                    border="none"
+                    rounded="xl"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </FormControl>
+              </SimpleGrid>
 
-						<Link href={"/login"}>
-							<Text cursor={"pointer"} textColor="primary.500" pt="18px">
-								Already have an account? Log in
-							</Text>
-						</Link>
+              <Box w="full" pt={2}>
+                <Checkbox colorScheme="primary" defaultChecked>
+                  <Text fontSize="sm" color="gray.600">
+                    I agree to the{" "}
+                    <ChakraLink color="primary.500" fontWeight="700">Terms of Service</ChakraLink> and{" "}
+                    <ChakraLink color="primary.500" fontWeight="700">Privacy Policy</ChakraLink>
+                  </Text>
+                </Checkbox>
+              </Box>
 
-						<Flex w="full" gap="30px">
-							<CustomInput
-								name="firstname"
-								onChange={handleChange}
-								label="First Name"
-								placeholder="First Name"
-								value={signUpDetails?.firstname}
-							/>
-							<CustomInput
-								name="lastname"
-								onChange={handleChange}
-								label="Last Name"
-								placeholder="Last Name"
-								value={signUpDetails?.lastname}
-							/>
-						</Flex>
+              <Button
+                type="submit"
+                w="full"
+                h="65px"
+                bg="primary.500"
+                color="white"
+                fontSize="lg"
+                fontWeight="700"
+                rounded="2xl"
+                isLoading={isLoading}
+                isDisabled={disabled}
+                _hover={{ bg: "primary.600", transform: "translateY(-2px)" }}
+                transition="all 0.2s"
+                boxShadow="0 10px 20px -5px rgba(214, 51, 58, 0.4)"
+                rightIcon={<ArrowRight variant="Bold" />}
+              >
+                Create Account
+              </Button>
+            </VStack>
 
-						<CustomInput
-							name="email"
-							onChange={handleChange}
-							label="Email"
-							type="email"
-							value={signUpDetails?.email}
-							placeholder="example@abc.com"
-						/>
-						<Box paddingTop="5px">
-							{formError.email && (
-								<Box style={{ color: "red" }}>{formError.email}</Box>
-							)}
-						</Box>
-
-						<CustomInput
-							name="password"
-							onChange={handlePasswordChange}
-							label="Password"
-							type="password"
-							value={signUpDetails?.password}
-							placeholder="........."
-						/>
-						<Box>
-							{passwordError && (
-								<Box style={{ color: "red" }}>{passwordError}</Box>
-							)}
-						</Box>
-						<CustomInput
-							name="confirmPassword"
-							onChange={handleConfirmPasswordChange}
-							label="Confirm Password"
-							type="password"
-							placeholder="........."
-						/>
-
-						<Box>
-							{!passwordMatch && (
-								<Box style={{ color: "red" }}>Passwords do not match!</Box>
-							)}
-						</Box>
-
-						<Box pt="25px">
-							<FormControl>
-								<Box display="flex" gap="4px">
-									<Text pb="2">Phone Number</Text>
-									<Text color="red">*</Text>
-								</Box>
-
-								<PhoneInput
-									international
-									country={"ca"}
-									value={phone}
-									onChange={(value) => handlePhoneChange(value)}
-									inputStyle={{
-										width: "100%",
-										height: "50px",
-									}}
-									containerStyle={{
-										borderWidth: "1px",
-										borderColor: "#6CA6D0",
-										borderRadius: "6px",
-										outline: "none",
-									}}
-									placeholder="Phone No"
-								/>
-							</FormControl>
-						</Box>
-
-						<Box>
-							<CustomInput
-								name="sourceOfFund"
-								onChange={handleChange}
-								label="For your trades with Ozone Pro-Financial Corporation,  what is the source of funds?"
-								placeholder=""
-								value={signUpDetails?.sourceOfFund}
-							/>
-						</Box>
-
-						<Box>
-							<CustomInput
-								name="purchasedFundsUseCase"
-								onChange={handleChange}
-								label="⁠What do you intend to use the digital assets or fiat money you purchase from Ozone Pro-Financial Corporation for?"
-								placeholder=""
-								value={signUpDetails?.purchasedFundsUseCase}
-							/>
-						</Box>
-
-						<HStack pt="25px" spacing={3}>
-							<Checkbox onChange={handleCheckboxChange}>
-								<Text>
-									{" "}
-									I agree to the{" "}
-									<Link href="/privacy" style={{ color: "#D6333A" }}>
-										Privacy Policy
-									</Link>{" "}
-									and{" "}
-									<Link href="/terms" style={{ color: "#D6333A" }}>
-										Terms of Service.
-									</Link>
-								</Text>
-							</Checkbox>
-						</HStack>
-
-						<Box pt="70px">
-							<CustomButton
-								isLoading={profileLoading}
-								loadingText="Loading..."
-								spinner={<Spinner size="sm" />}
-								handleClick={() => {
-									setShowPersona(true);
-									handleSaveSignUpDetails();
-									// handleSubmitTest()
-								}}
-								bg="primary.500"
-								isDisabled={disabled}
-							>
-								Continue
-							</CustomButton>
-						</Box>
-					</Box>
-				</Box>
-				{/* <PersonaComponent/> */}
-
-				{/* <CustomModal isOpen={isOpen} onClose={onClose} /> */}
-			</Flex>
-		</Box>
-	);
+            <HStack justify="center">
+              <Text color="gray.500">Already have an account?</Text>
+              <Link href="/login">
+                <Text color="primary.500" fontWeight="700" cursor="pointer">Sign In</Text>
+              </Link>
+            </HStack>
+          </VStack>
+        </MotionBox>
+      </Flex>
+    </Flex>
+  );
 }

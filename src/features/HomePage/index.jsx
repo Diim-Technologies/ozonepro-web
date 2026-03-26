@@ -18,7 +18,7 @@ import Hero from "../../components/Hero";
 import ExchangeCalculator from "../../components/ExchangeCalculator";
 import { useRouter } from "next/router";
 import { UserContext } from "../../contexts/UserContext";
-import exchangeCalculatorHooks from "css/components/ExchangeCalculator/hooks";
+import exchangeCalculatorHooks from "../../components/ExchangeCalculator/hooks";
 
 export default function HomePage() {
   const { comingSoonPairs } = exchangeCalculatorHooks()

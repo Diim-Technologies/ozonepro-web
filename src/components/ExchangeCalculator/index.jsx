@@ -1,26 +1,22 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React from "react";
 import {
   Box,
   Flex,
   Text,
-  Input,
-  Select,
-  Divider,
   Icon,
+  Select,
+  VStack,
+  HStack,
+  Heading,
+  Button,
+  useColorModeValue,
   NumberInput,
   NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
 } from "@chakra-ui/react";
-import { Swap, ChevronDown } from "react-iconly";
-import { CustomButton } from "../../components/Button";
+import { ArrowSwapVertical, InfoCircle, WalletMoney } from "iconsax-react";
 import exchangeCalculatorHooks from "./hooks";
-import { UserContext } from "../../contexts/UserContext";
 
-export default function ExchangeCalculator({ ...rest }) {
-  const [disable,setDisable] = useState(true)
-
+export default function ExchangeCalculator({ fullWidth = false, isShortcut = false, ...rest }) {
   const {
     exchange,
     currencies,
@@ -32,187 +28,146 @@ export default function ExchangeCalculator({ ...rest }) {
     exchangeAmount,
   } = exchangeCalculatorHooks();
 
+  const cardBg = useColorModeValue("white", "gray.800");
+  const inputBg = useColorModeValue("gray.50", "whiteAlpha.100");
+  const borderColor = useColorModeValue("blue.100", "blue.900");
 
   return (
     <Box
-      w={{ base: "full", md: "450px", xl: "600px" }}
-      h={{ base: "480px", md: "590px", xl: "650px" }}
-      // display="flex"
-      // alignItems="center"
-      // mx="auto"
-      boxShadow="0px 9.70117px 97.0117px rgba(13, 47, 72, 0.12)"
-      bgColor="#FFFFFF"
-      mt="30px"
-      rounded={40}
-      p={{ base: 15, md: 25 }}
+      w={fullWidth ? "full" : { base: "full", md: "450px" }}
+      bg={cardBg}
+      boxShadow="2xl"
+      rounded="3xl"
+      p={isShortcut ? 6 : 8}
+      border="1px"
+      borderColor={borderColor}
       {...rest}
     >
-      <Box
-        border="2px"
-        p={{ base: "10px", md: "15px" }}
-        rounded={24}
-        borderColor="blue.400"
-      >
-        <Flex gap={3} alignItems="center" justifyContent="space-between">
-          <Text fontSize={{ base: "16", md: "20", xl: "28" }}>Transfer</Text>
-          <Flex alignItems="center" gap={{ base: 1, md: 3 }}>
-            <Box>
+      <VStack spacing={6} align="stretch">
+        {!isShortcut && (
+          <HStack justify="space-between">
+            <VStack align="start" spacing={0}>
+              <Heading size="md" color="blue.900">Currency Exchange</Heading>
+              <Text fontSize="sm" color="gray.500">Fast and secure currency conversion</Text>
+            </VStack>
+            <Icon as={WalletMoney} size="32" color="primary.500" variant="Bold" />
+          </HStack>
+        )}
+
+        <VStack spacing={4}>
+          {/* Send Amount */}
+          <Box w="full" bg={inputBg} p={4} rounded="2xl">
+            <Flex justify="space-between" mb={2}>
+              <Text fontSize="xs" fontWeight="700" color="gray.500" textTransform="uppercase">You Send</Text>
               <Select
-                name="currency1"
-                rounded={{ base: "8px", md: "16px" }}
-                h="41px"
-                size={{ base: "md", md: "lg" }}
-                fontSize={{ base: "14px", md: "20px" }}
-                fontWeight={700}
-                icon={<ChevronDown set="light" primaryColor="#1C496A" />}
-                style={{
-                  color: "#1C496A",
-                }}
+                variant="unstyled"
+                w="fit-content"
+                fontWeight="800"
+                fontSize="lg"
+                color="blue.600"
                 value={exchange?.currency1}
                 onChange={handleExchangeDetails}
-                // placeholder="NGN"
+                name="currency1"
               >
-                {currencies?.data.filter(({ attributes }) => attributes?.isAvailable).map(({ attributes, id }) => (
-                  <option
-                    key={id}
-                    style={{
-                      color: "#1C496A",
-                    }}
-                    value={attributes?.currency}
-                    defaultValue='NGN'
-                    
-                  >
-                    {attributes?.currency}
-                  </option>
+                {currencies?.map((curr) => (
+                    <option key={curr.id} value={curr.code}>
+                        {curr.code}
+                    </option>
                 ))}
               </Select>
-            </Box>
+            </Flex>
+            <NumberInput
+              variant="unstyled"
+              value={exchangeAmount}
+              onChange={(val) => handleAmountChange(val)}
+              min={1}
+            >
+              <NumberInputField fontSize="2xl" fontWeight="800" p={0} />
+            </NumberInput>
+          </Box>
 
-            <Icon
-              as={Swap}
-              w={{ base: 4, md: 8 }}
-              h={{ base: 4, md: 8 }}
-              color="#6CA6D0"
-              style={{ transform: "rotate(90deg)" }}
-            />
+          {/* Swap Icon */}
+          <Flex
+            bg="primary.500"
+            color="white"
+            p={2}
+            rounded="full"
+            boxShadow="lg"
+            zIndex={2}
+            my="-5"
+          >
+            <ArrowSwapVertical size="20" variant="Bold" />
+          </Flex>
 
-            <Box>
+          {/* Receive Amount */}
+          <Box w="full" bg={inputBg} p={4} rounded="2xl" border="1px" borderColor="transparent">
+            <Flex justify="space-between" mb={2}>
+              <Text fontSize="xs" fontWeight="700" color="gray.500" textTransform="uppercase">You Receive</Text>
               <Select
+                variant="unstyled"
+                w="fit-content"
+                fontWeight="800"
+                fontSize="lg"
+                color="blue.600"
                 name="currency2"
-                rounded={{ base: 8, md: 16 }}
-                size={{ base: "md", md: "lg" }}
-                fontSize={{ base: "14px", md: "20px" }}
-                fontWeight={700}
-                icon={<ChevronDown set="light" primaryColor="#1C496A" />}
-                style={{
-                  color: "#1C496A",
-                }}
                 onChange={handleExchangeDetails}
-                placeholder={exchange?.currency1 == 'CAD' ? "" : 'CAD'}
+                value={exchange?.currency2}
               >
-                {currencyPair?.data.map((currency) => (
-                  
-                  <option
-                    key={currency}
-                    style={{
-                      color: "#1C496A",
-                    }}
-                    value={currency}
-                  >
+                {currencyPair?.data?.map((currency) => (
+                  <option key={currency} value={currency}>
                     {currency}
                   </option>
                 ))}
               </Select>
-            </Box>
+            </Flex>
+            <Text fontSize="2xl" fontWeight="800" color="green.500">
+              {exchangeDetails?.convertedAmount?.toFixed(2) || "0.00"}
+            </Text>
+          </Box>
+        </VStack>
+
+        <VStack spacing={3} py={2}>
+          <Flex justify="space-between" w="full">
+            <HStack color="gray.500">
+              <Text fontSize="sm">Exchange Rate</Text>
+              <Icon as={InfoCircle} boxSize={3} />
+            </HStack>
+            <Text fontSize="sm" fontWeight="700" color="blue.900">
+               1 {exchange?.currency1} = {exchangeDetails?.rate?.toFixed(4) || "0.00"} {exchange?.currency2}
+            </Text>
           </Flex>
-        </Flex>
+          <Flex justify="space-between" w="full">
+            <Text fontSize="sm" color="gray.500">Transfer Fee</Text>
+            <Text fontSize="sm" fontWeight="700" color="red.500">
+              ${exchangeDetails?.fee?.toFixed(2) || "0.00"}
+            </Text>
+          </Flex>
+        </VStack>
 
-        <Box>
-          <NumberInput
-            size="xl"
-            fontWeight={600}
-            fontSize={{ base: "20", md: "20", xl: "28" }}
-            variant="unstyled"
-            value={exchangeAmount}
-            onChange={handleAmountChange}
-            // min={0}
-          >
-            <NumberInputField />
-          </NumberInput>
-        </Box>
-      </Box>
+        <Button
+          w="full"
+          h={isShortcut ? "55px" : "65px"}
+          bg="primary.500"
+          color="white"
+          fontSize="lg"
+          fontWeight="700"
+          rounded="2xl"
+          _hover={{ bg: "primary.600", transform: "translateY(-2px)" }}
+          _active={{ transform: "translateY(0)" }}
+          transition="all 0.2s"
+          boxShadow="0 10px 20px -5px rgba(214, 51, 58, 0.4)"
+          isDisabled={!exchangeDetails}
+          onClick={handleContinue}
+        >
+          {isShortcut ? "Exchange Now" : "Continue Transfer"}
+        </Button>
 
-      {/* <CustomButton mx="auto" w="220px" my="20px" bg="primary.500">
-        Convert
-      </CustomButton> */}
-
-      <Box
-        border="2px"
-        mt={{ base: 15, md: 25 }}
-        p={{ base: "10px", md: "15px" }}
-        rounded={24}
-        borderColor="blue.400"
-      >
-        <Flex justifyContent="space-between">
-          <Text fontSize={{ base: "16", md: "20", xl: "28" }}>Receive</Text>
-        </Flex>
-
-        <Box display="flex" justifyContent="flex-start" alignItems="center">
-          <Text
-            h="40px"
-            fontSize={{ base: "20", md: "20", xl: "28" }}
-            fontWeight={600}
-            textColor="blue.900"
-            textAlign="left"
-          >
-            {exchangeDetails?.amountToRecieve}
+        {!isShortcut && (
+          <Text fontSize="xs" color="gray.400" textAlign="center">
+            Estimated time: within minutes
           </Text>
-        </Box>
-      </Box>
-
-      <Divider borderColor="#93CAF2" my={{ base: "15px", md: "30px" }} />
-
-      <Flex justifyContent="space-between" alignItems="center">
-        <Text
-          fontSize={{ base: "16", md: "20", xl: "28" }}
-          textColor="blue.800"
-        >
-         Indicative Exchange Rate
-        </Text>
-
-        <Text fontSize={{ base: "16", md: "20", xl: "28" }} textColor="#4DB955">
-          {exchangeDetails?.currentExchangeDetails?.exchangeRate}
-        </Text>
-      </Flex>
-
-      <Box pt="18">
-        <Flex
-          fontSize={{ base: "16", md: "20", xl: "28" }}
-          justifyContent="space-between"
-        >
-          <Text textColor="blue.800">Transfer Fee</Text>
-          <Text textColor="#D6333A">
-            {exchangeDetails?.currentExchangeDetails?.transactionFee}
-          </Text>
-        </Flex>
-
-        <Flex
-          fontSize={{ base: "16", md: "20", xl: "28" }}
-          justifyContent="space-between"
-          pt="18"
-          pb="40px"
-        >
-          <Text textColor="blue.800">Transfer time</Text>
-          <Text textColor="#4DB955">within minutes</Text>
-        </Flex>
-
-         <CustomButton 
-         handleClick={handleContinue}  
-         isDisabled={!exchangeDetails}
-         bg="primary.500">
-          Continue
-        </CustomButton>
-      </Box>
+        )}
+      </VStack>
     </Box>
   );
 }

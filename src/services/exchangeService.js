@@ -1,41 +1,32 @@
 import axios from "axios";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
+
 export const fetchCurrencies = async () => {
+  const { data } = await axios.get(`${BASE_URL}/currencies`);
+  return data;
+};
+
+export const fetchExchangeRates = async () => {
+  const { data } = await axios.get(`${BASE_URL}/exchange-rates`);
+  return data;
+};
+
+export const fetchExchangeDetails = async ({ queryKey }) => {
+  const [_, base, target, amount] = queryKey;
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/supported-currencies`
+    `${BASE_URL}/exchange-rates/calculate?base=${base}&target=${target}&amount=${amount}`
   );
   return data;
 };
 
-
-export const fetchCurrencyPair = async (pair) => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/exchange-details/base-pairs?basePair=${pair}`
-  );
-  return data;
+export const fetchComingSoonPairs = async () => {
+  // Placeholder for now
+  return { data: ["USD/CAD", "EUR/CAD", "GBP/CAD"] };
 };
 
-export const fetchComingSoonPairs = async (pair) => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/exchange-details/coming-soon`
-  );
-  return data;
+export const fetchCurrencyPair = async (base) => {
+    const { data } = await axios.get(`${BASE_URL}/exchange-rates`);
+    const targets = data.filter(r => r.baseCurrency === base).map(r => r.targetCurrency);
+    return { data: targets };
 };
-
-export const fetchExchangeDetails = async (payload) => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/exchange-details/currency-pair?pair=${payload.queryKey[1]}&amount=${payload.queryKey[2]}`
-  );
-  return data;
-};
-
-export const createExchange = async (payload) => {
-  
-  const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/exchanges`,
-    payload
-  );
-  return data;
-};
-
-

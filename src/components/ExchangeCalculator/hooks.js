@@ -11,41 +11,30 @@ import { UserContext } from "../../contexts/UserContext";
 
 export default function exchangeCalculatorHooks() {
   const router = useRouter();
-  const { clientPhoneNumber } = useContext(UserContext);
-  const [dataFromLocalStorage, setDataFromLocalStorage] = useState({});
-
-
-  const [exchangeAmount, setExchangeAmount] = useState(0);
+  const { user } = useContext(UserContext);
+  const [exchangeAmount, setExchangeAmount] = useState(100);
 
   const [exchange, setExchangeDetails] = useState({
-    currency1: "NGN",
-    currency2: "CAD",
+    currency1: "USD", // Default to USD if available
+    currency2: "NGN",
   });
 
+  const { data: currencies } = useQuery(["availableCurrencies"], fetchCurrencies);
 
+  // Auto-set first available currency if not set
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const data = JSON.parse(localStorage.getItem("transactionDetails"));
-      setDataFromLocalStorage({ ...data });
+    if (currencies?.length > 0 && !exchange.currency1) {
+      setExchangeDetails(prev => ({ ...prev, currency1: currencies[0].code }));
     }
-  }, [exchangeAmount]);
+  }, [currencies]);
 
-  const {
-    data: currencies,
-    // isLoading,
-    // error,
-  } = useQuery(["availableCurrencies"], fetchCurrencies);
+  const { data: currencyPair } = useQuery(
+    ["pairCurrencies", exchange?.currency1],
+    () => fetchCurrencyPair(exchange?.currency1),
+    { enabled: !!exchange?.currency1 }
+  );
 
-  const {
-    data: currencyPair,
-    // isLoading,
-    // error,
-  } = useQuery(["pairCurrencies", exchange?.currency1],() => fetchCurrencyPair(exchange?.currency1));
-  const {
-    data: comingSoonPairs,
-    // isLoading,
-    // error,
-  } = useQuery("comingsoonPairs", fetchComingSoonPairs);
+  const { data: comingSoonPairs } = useQuery("comingsoonPairs", fetchComingSoonPairs);
 
   const handleExchangeDetails = (event) => {
     const { name, value } = event.target;
@@ -53,61 +42,40 @@ export default function exchangeCalculatorHooks() {
   };
 
   const handleAmountChange = (newValue) => {
-    // Remove the minus sign from the input value
-    const sanitizedValue = newValue.replace(/-/g, "");
-
-    // Update the input value only if it doesn't contain a minus sign
-    if (sanitizedValue !== newValue) {
-      setExchangeAmount(sanitizedValue);
-    } else {
-      setExchangeAmount(newValue);
+    if (newValue === "" || newValue === null) {
+        setExchangeAmount(0);
+        return;
     }
+    const sanitizedValue = String(newValue).replace(/-/g, "");
+    setExchangeAmount(Number(sanitizedValue));
   };
 
-  const {
-    data: exchangeDetails,
-    // isLoading,
-    // error,
-  } = useQuery(
-    [
-      "exchangeDetails",
-      `${exchange.currency1}${exchange.currency2}`,
-      exchangeAmount,
-    ],
+  const { data: exchangeDetails } = useQuery(
+    ["exchangeCalculate", exchange.currency1, exchange.currency2, exchangeAmount],
     fetchExchangeDetails,
     {
-      enabled: !!exchangeAmount,
-      onSuccess: (data) => {
-        // handleResponseData(data);
-      },
+      enabled: !!exchangeAmount && !!exchange.currency1 && !!exchange.currency2,
     }
   );
 
-  const transactionDetails = {
-    ...exchange,
-    ...exchangeDetails,
-    exchangeAmount: exchangeAmount,
-  };
-
-  if (typeof window !== "undefined") {
-    localStorage.setItem(
-      "transactionDetails",
-      JSON.stringify(transactionDetails)
-    );
-  }
-
-  // console.log(exchangeDetails);
-  // console.log(exchangeAmount);
-  // console.log(exchange);
-
   const handleContinue = (event) => {
     event.preventDefault();
-    const message = `Hi there! I'm interested in exchanging ${dataFromLocalStorage?.exchangeAmount} of ${dataFromLocalStorage?.currency1} to ${dataFromLocalStorage?.currency2}. Can we proceed with the transaction?`;
+    
+    // Store details for the transfer page
+    const transactionDetails = {
+      senderCurrency: exchange.currency1,
+      destinationCurrency: exchange.currency2,
+      amount: exchangeAmount,
+      ...exchangeDetails,
+    };
+    
+    localStorage.setItem("pendingTransfer", JSON.stringify(transactionDetails));
 
-    const url = `https://wa.me/${clientPhoneNumber}?text=${message}`;
-
-
-    window.open(url, "_blank");
+    if (user) {
+      router.push("/dashboard/transfers");
+    } else {
+      router.push("/signup");
+    }
   };
 
   return {

@@ -1,11 +1,11 @@
 import React from "react";
+import TransactionsHistory from "../../features/Transactions";
 import DashboardLayout from "../../components/DashboardLayout";
-import HistoryPage from "../../features/History";
 
 export default function History() {
   return (
     <DashboardLayout>
-      {/* <HistoryPage /> */}
+      <TransactionsHistory />
     </DashboardLayout>
   );
 }
