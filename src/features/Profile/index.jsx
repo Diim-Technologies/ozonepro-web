@@ -152,9 +152,93 @@ export default function ProfilePage() {
         <VStack spacing={10} align="stretch">
 
           {/* Header Section */}
+          <MotionBox
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Box 
+              h={{ base: "200px", md: "260px" }} 
+              bgGradient="linear(135deg, blue.600 0%, primary.500 100%)" 
+              rounded="4xl" 
+              position="relative"
+              mb={24}
+              boxShadow="0 20px 40px -10px rgba(49, 130, 206, 0.3)"
+              overflow="hidden"
+            >
+              {/* Abstract Patterns */}
+              <Box position="absolute" top="-10%" right="-5%" w="300px" h="300px" bg="whiteAlpha.100" rounded="full" filter="blur(60px)" />
+              <Box position="absolute" bottom="-15%" left="5%" w="200px" h="200px" bg="blackAlpha.200" rounded="full" filter="blur(40px)" />
 
+              <Flex 
+                position="absolute" 
+                bottom="-70px" 
+                left={{ base: "24px", md: "60px" }} 
+                align="end"
+                direction={{ base: "column", md: "row" }}
+                gap={6}
+                w="full"
+              >
+                <Box position="relative">
+                  <Avatar 
+                    size="2xl" 
+                    name={`${user?.firstName} ${user?.lastName}`} 
+                    border="8px solid"
+                    borderColor={useColorModeValue("white", "gray.950")}
+                    boxShadow="2xl"
+                    bg="primary.500"
+                    transition="transform 0.3s"
+                    _hover={{ transform: "scale(1.05)" }}
+                  />
+                  <IconButton
+                    icon={<Edit2 size="20" variant="Bold" />}
+                    position="absolute"
+                    bottom="5px"
+                    right="5px"
+                    rounded="full"
+                    colorScheme="whiteAlpha"
+                    bg="white"
+                    color="primary.500"
+                    boxShadow="lg"
+                    size="sm"
+                    aria-label="Change Avatar"
+                  />
+                </Box>
+                
+                <VStack align="start" spacing={1} pb={4} flex={1}>
+                  <HStack spacing={3}>
+                    <Heading size="xl" fontWeight="900" letterSpacing="tight" color={headingColor}>
+                      {user?.firstName} {user?.lastName}
+                    </Heading>
+                    {user?.kycStatus === "VERIFIED" && (
+                      <Icon as={Verify} color="blue.500" variant="Bold" w={8} h={8} />
+                    )}
+                  </HStack>
+                  <HStack spacing={2}>
+                    <Icon as={Sms} size="16" color={subTextColor} />
+                    <Text color={subTextColor} fontWeight="600" fontSize="lg">{user?.email}</Text>
+                  </HStack>
+                </VStack>
 
-          <SimpleGrid columns={{ base: 1, lg: 12 }} spacing={8}>
+                <HStack spacing={4} pr={{ base: 4, md: 10 }} pb={4}>
+                  <Button
+                    leftIcon={<Edit2 variant="Bold" size="20" />}
+                    rounded="2xl"
+                    size="lg"
+                    px={8}
+                    bg={useColorModeValue("white", "whiteAlpha.200")}
+                    color={useColorModeValue("primary.500", "white")}
+                    boxShadow="xl"
+                    onClick={() => setIsEditing(!isEditing)}
+                    _hover={{ transform: "translateY(-2px)", boxShadow: "2xl" }}
+                    _active={{ transform: "translateY(0)" }}
+                  >
+                    {isEditing ? "Cancel" : "Edit Profile"}
+                  </Button>
+                </HStack>
+              </Flex>
+            </Box>
+          </MotionBox>
 
             {/* Left Sidebar: Detailed Info */}
             <Stack spacing={8} gridColumn={{ lg: "span 4" }}>
