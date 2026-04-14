@@ -43,21 +43,28 @@ export default function ResetPasswordPage() {
         </Text>
 
         <Text w="90%">
-          Please enter your email, a reset password link will be sent to you
+          Please enter the verification code sent to your email and your new password.
         </Text>
+
+        <CustomInput
+          name="token"
+          onChange={handleChange}
+          label="Verification Code"
+          placeholder="6-digit code"
+        />
 
         <CustomPassword
           name="password"
           onChange={handleChange}
-          label="Password"
-          placeholder="Password"
+          label="New Password"
+          placeholder="New Password"
         />
 
         <CustomPassword
           name="confirmPassword"
           onChange={handleChange}
-          label="Confirm Password"
-          placeholder="Confirm Password"
+          label="Confirm New Password"
+          placeholder="Confirm New Password"
         />
 
         <CustomButton

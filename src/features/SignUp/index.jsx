@@ -61,7 +61,7 @@ export default function SignUpPage() {
         <VStack spacing={8} align="start" zIndex={1} maxW="500px">
           <Image src="/images/ozone-pro-logo.png" h="80px" />
           <Heading fontSize="6xl" fontWeight="900" lineHeight="1.1" color="gray.900">
-            Start Your <Text as="span" color="primary.500">Journey</Text> with Ozone.
+            Start Your <Text as="span" color="primary.500">Journey</Text> with OzonePro.
           </Heading>
           <Text fontSize="xl" color="gray.600" fontWeight="500">
             Experience borderless financial freedom. Fast, secure, and built for the modern world.

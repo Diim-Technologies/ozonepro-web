@@ -91,6 +91,31 @@ export default function KYC() {
             <Badge colorScheme="orange" p={2} rounded="full" px={6} fontSize="md">
               Pending Approval
             </Badge>
+
+            <VStack spacing={4} w="full" pt={6}>
+              {kyc?.verificationUrl && (
+                <Button
+                  size="lg"
+                  w="full"
+                  colorScheme="blue"
+                  onClick={() => window.location.href = kyc.verificationUrl}
+                  leftIcon={<TickCircle />}
+                >
+                  Continue Verification
+                </Button>
+              )}
+              <Button
+                size="lg"
+                w="full"
+                variant="outline"
+                colorScheme="blue"
+                onClick={() => handleStartVerification(workflowId)}
+                isLoading={isInitiating}
+                leftIcon={<Refresh />}
+              >
+                Start New Verification
+              </Button>
+            </VStack>
           </VStack>
         );
       default:
@@ -131,7 +156,7 @@ export default function KYC() {
               color="white"
               _hover={{ bg: "primary.600", transform: "translateY(-2px)" }}
               onClick={() => handleStartVerification(workflowId)}
-              isLoading={isInitiating}
+              isLoading={isInitiating || (status === "PENDING" && isInitiating)}
               rightIcon={<ArrowRight />}
               fontSize="xl"
               boxShadow="0 4px 14px 0 rgba(214, 51, 58, 0.39)"

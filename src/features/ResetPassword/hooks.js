@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { useMutation } from "react-query";
-import { completePasswordReset } from "../../services/authService";
+import { resetPassword } from "../../services/authService";
 import Router, { useRouter } from "next/router";
-import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
 
 export default function resetPasswordHooks() {
   const router = useRouter();
-  const { query } = useRouter();
+  const { email } = router.query;
   const toast = useToast();
 
   const [resetPasswordDetails, setResetPasswordDetails] = useState({
+    token: "",
     password: "",
     confirmPassword: "",
   });
@@ -21,14 +20,12 @@ export default function resetPasswordHooks() {
     setResetPasswordDetails((prev) => ({ ...prev, [name]: value }));
   };
 
-  const { token } = query;
-
-  const { isLoading, mutate } = useMutation(completePasswordReset, {
+  const { isLoading, mutate } = useMutation(resetPassword, {
     onSuccess: (data) => {
-      // console.log(data);
       toast({
         position: "top",
-        title: `${data?.message}`,
+        title: "Success",
+        description: data?.message || "Password reset successful.",
         status: "success",
         variant: "top-accent",
         isClosable: true,
@@ -38,7 +35,8 @@ export default function resetPasswordHooks() {
     onError: ({ response }) => {
       toast({
         position: "top",
-        title: response?.data.message,
+        title: "Error",
+        description: response?.data?.message || "Something went wrong.",
         status: "error",
         variant: "top-accent",
         isClosable: true,
@@ -49,10 +47,20 @@ export default function resetPasswordHooks() {
   const handleContinue = (event) => {
     event.preventDefault();
 
+    if (!email) {
+      toast({ title: "Missing Email", status: "error" });
+      return;
+    }
+
+    if (resetPasswordDetails.password !== resetPasswordDetails.confirmPassword) {
+      toast({ title: "Passwords mismatch", status: "error" });
+      return;
+    }
+
     mutate({
-      password: resetPasswordDetails.password,
-      confirmPassword: resetPasswordDetails.confirmPassword,
-      secretToken: token,
+      email: email,
+      token: resetPasswordDetails.token,
+      newPassword: resetPasswordDetails.password,
     });
   };
 
@@ -60,5 +68,6 @@ export default function resetPasswordHooks() {
     handleChange,
     handleContinue,
     isLoading,
+    resetPasswordDetails,
   };
 }

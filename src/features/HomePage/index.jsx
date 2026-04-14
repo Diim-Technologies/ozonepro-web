@@ -10,7 +10,16 @@ import {
   ListItem,
   Grid,
   GridItem,
+  VStack,
+  HStack,
+  Container,
+  SimpleGrid,
+  Badge,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
+
 import { CustomButton } from "../../components/Button";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -112,135 +121,137 @@ export default function HomePage() {
         </Box>
       </Flex>
 
-      <Box bg="blue.50" textAlign="center" py="30px" px={{ base: "10px" }}>
-        <Text
-          pt="58px"
-          pb="58px"
-          fontSize={{ base: "24px", lg: "32px" }}
-          textColor="primary.500"
-        >
-          Products Features
-        </Text>
-
-        <Box>
-          <Image mx="auto" src="/images/blue_dollar.png" />
-
-          <Heading
-            fontSize={{ base: "24px", lg: "32px", xl: "48px" }}
-            py="20px"
-          >
-            Money Exchange
-          </Heading>
-
-          <Text w={{ md: "90%", lg: "70%", xl: "54%" }} pb="20px" mx="auto">
-            Easily convert currencies for international transactions and keep
-            track of their finances in multiple currencies. This will make it
-            easier for businesses and individuals to conduct transactions across
-            borders.
-          </Text>
-
-          <CustomButton
-            route="/money-exchange"
-            mx="auto"
-            w="220px"
-            bg="primary.500"
-          >
-            Money Exchange
-          </CustomButton>
-
-          <ExchangeCalculator mx="auto" />
-          <Flex justifyContent='center' position='relative'>
-            <Box>
-              <Flex 
-                justifyContent='center'
+      {/* Products Features Section */}
+      <Box py={{ base: "80px", lg: "120px" }} bg="white">
+        <Container maxW="container.xl">
+          <VStack spacing={16} align="stretch">
+            <VStack spacing={4} textAlign="center">
+              <Text
+                fontSize="sm"
+                fontWeight="700"
+                color="primary.500"
+                letterSpacing="widest"
+                textTransform="uppercase"
               >
-                <Flex 
-                justifyContent='center'
-                alignItems='center'
-                w={{base:'200px',md:'',lg:'405.836px'}}
-                h={{base:'80px',md:'',lg:'113px'}} 
-                bg='white'
-                position='absolute'
-                top={{base:'55px',md:'',lg:'50px'}}
-                borderTopRadius={{base:'24px',md:'24px',lg:'24px'}}
-                >
-                  <Text
-                  color='#D6333A'
-                  fontFamily='body'
-                  fontWeight='bold'
-                  fontSize={{base:'24px',lg:'32px'}}
+                Our Solutions
+              </Text>
+              <Heading fontSize={{ base: "3xl", md: "5xl" }} color="blue.900">
+                Product Features
+              </Heading>
+              <Text color="gray.500" fontSize="lg" maxW="700px">
+                Comprehensive financial tools designed to empower your personal and business growth.
+              </Text>
+            </VStack>
 
-                  >Coming soon</Text>
-                </Flex>
-              </Flex>
-              <Box 
-              w={{base: "350px", md: "450px",lg:'573px'}} 
-              boxShadow="0px 10px 100px 0px rgba(13, 47, 72, 0.12)"
-              h={{base:'auto',md:'auto',lg:'auto'}}
-              mt={{base:'100px',md:'',lg:'112px'}}
-              borderRadius='24px'
-              bg='white'>
-                <Flex 
-                flexDirection='row'
-                pt={{base:'70px',md:'',lg:'100px'}} 
-                pb={{base:'30px',md:'',lg:'50px'}} 
-                pl={{base:'30px',md:'30px',lg:'70px'}}
-                pr={{base:'55px',md:'55px',lg:'95px'}}
-                justifyContent='center'>
-                  <UnorderedList 
-                  listStyleType='none' 
-                  spacing={{base:'12px',md:'',lg:'27px'}}
-                  fontFamily='body'
-                  fontSize={{base:'16px',md:'20px'}}
-                  fontWeight='normal'
-                  color='#0D2F48'
+            <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={12}>
+              {/* Money Exchange Feature */}
+              <MotionBox
+                whileHover={{ y: -10 }}
+                transition={{ duration: 0.3 }}
+                p={{ base: 8, md: 12 }}
+                bg="blue.50"
+                rounded="3xl"
+                position="relative"
+                overflow="hidden"
+              >
+                <VStack align="start" spacing={6} position="relative" zIndex={1}>
+                  <Image src="/images/blue_dollar.png" h="60px" />
+                  <VStack align="start" spacing={3}>
+                    <Heading size="xl" color="blue.900">Money Exchange</Heading>
+                    <Text color="blue.800" fontSize="lg">
+                      Easily convert currencies for international transactions and keep
+                      track of your finances in multiple currencies.
+                    </Text>
+                  </VStack>
+                  
+                  <CustomButton
+                    route="/money-exchange"
+                    w="220px"
+                    bg="primary.500"
+                    boxShadow="0 10px 20px -5px rgba(214, 51, 58, 0.4)"
                   >
-                    {firstPairsArray.map(pair => (<ListItem>{pair}</ListItem>))}
-                  </UnorderedList>
-                  <Image mx="auto" src="/images/comingsoon-pairs.svg" />
-                  <UnorderedList 
-                  listStyleType='none' 
-                  spacing={{base:'12px',md:'',lg:'27px'}}
-                  fontFamily='body'
-                  fontSize={{base:'16px',md:'20px'}}
-                  color='#0D2F48'
-                  fontWeight='normal'
+                    Start Exchanging
+                  </CustomButton>
+
+                  {/* Coming Soon Section */}
+                  <Box w="full" pt={6}>
+                    <Flex 
+                      bg="white" 
+                      p={6} 
+                      rounded="2xl" 
+                      boxShadow="sm"
+                      direction="column"
+                      gap={4}
+                    >
+                      <HStack justify="space-between">
+                        <Text fontWeight="800" color="primary.500" fontSize="sm">COMING SOON PAIRS</Text>
+                        <Badge colorScheme="red" variant="subtle" rounded="full" px={3}>Beta</Badge>
+                      </HStack>
+                      <Flex gap={4} justify="center" align="center">
+                        <VStack spacing={2} align="end">
+                          {firstPairsArray.slice(0, 3).map((pair, i) => (
+                            <Text key={i} fontWeight="600" color="blue.900" fontSize="md">{pair}</Text>
+                          ))}
+                        </VStack>
+                        <Image src="/images/comingsoon-pairs.svg" h="40px" />
+                        <VStack spacing={2} align="start">
+                          {secondPairsArray.slice(0, 3).map((pair, i) => (
+                            <Text key={i} fontWeight="600" color="blue.900" fontSize="md">{pair}</Text>
+                          ))}
+                        </VStack>
+                      </Flex>
+                    </Flex>
+                  </Box>
+                </VStack>
+                {/* Decoration */}
+                <Box position="absolute" bottom="-20px" right="-20px" opacity={0.1}>
+                  <Image src="/images/blue_dollar.png" h="200px" transform="rotate(-15deg)" />
+                </Box>
+              </MotionBox>
+
+              {/* Accounting Feature */}
+              <MotionBox
+                whileHover={{ y: -10 }}
+                transition={{ duration: 0.3 }}
+                p={{ base: 8, md: 12 }}
+                bg="primary.50"
+                rounded="3xl"
+                position="relative"
+                overflow="hidden"
+              >
+                <VStack align="start" spacing={6} position="relative" zIndex={1} h="full">
+                  <Image src="/images/green_dollar.png" h="60px" />
+                  <VStack align="start" spacing={3}>
+                    <Heading size="xl" color="blue.900">Accounting</Heading>
+                    <Text color="blue.800" fontSize="lg">
+                      Simplify your financial and accounting needs. General Accounting,
+                      Bookkeeping, Tax filing & Limited Currency Exchange Service.
+                    </Text>
+                  </VStack>
+                  
+                  <CustomButton 
+                    route="/accounting" 
+                    w="220px" 
+                    bg="primary.500"
+                    boxShadow="0 10px 20px -5px rgba(214, 51, 58, 0.4)"
                   >
-                    {secondPairsArray.map(pair => (<ListItem>{pair}</ListItem>))}
-                  </UnorderedList>
-                </Flex>
-              </Box>
-            </Box>
-          </Flex>
-        </Box>
+                    Accounting
+                  </CustomButton>
+
+                  <Box w="full" mt="auto" pt={8}>
+                    <Image w="full" src="/images/bookkeeping.svg" rounded="2xl" />
+                  </Box>
+                </VStack>
+                {/* Decoration */}
+                <Box position="absolute" bottom="-20px" right="-20px" opacity={0.1}>
+                  <Image src="/images/green_dollar.png" h="200px" transform="rotate(-15deg)" />
+                </Box>
+              </MotionBox>
+            </SimpleGrid>
+          </VStack>
+        </Container>
       </Box>
-
-      <Box pt="58px" textAlign="center" bg="white" px={{ base: "10px" }}>
-        <Image mx="auto" src="/images/green_dollar.png" />
-
-        <Heading fontSize={{ base: "24px", lg: "32px", xl: "48px" }} py="20px">
-          Accounting
-        </Heading>
-
-        <Text w={{ md: "90%", lg: "70%", xl: "54%" }} pb="20px" mx="auto">
-        Simplify Your Financial and Accounting Needs.General Accounting, Bookkeeping, Tax filing & Limited Currency Exchange Service
-        </Text>
-
-        <CustomButton route="/accounting" mx="auto" w="220px" bg="primary.500">
-          Accounting
-        </CustomButton>
-
-        <Box
-          w={{ base: "full", md: "50%" }}
-          display="flex"
-          alignItems="center"
-          mx="auto"
-          pt="30px"
-          pb="70px"
-        >
-          <Image w="full" src="/images/bookkeeping.svg"  />
-        </Box>
-      </Box>
+      {/* End Products Features Section */}
 
       <Box
         h={{

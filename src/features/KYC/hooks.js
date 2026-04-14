@@ -47,8 +47,8 @@ export default function useKycHooks() {
   );
 
   const handleStartVerification = (workflowId) => {
-    // You can pass a fallback callback URL if needed
-    const callback = `${window.location.origin}/dashboard`;
+    // Redirect back to KYC page after verification
+    const callback = `${window.location.origin}/kyc`;
     startKyc({ workflowId, callback });
   };
 

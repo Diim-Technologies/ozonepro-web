@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { useMutation } from "react-query";
-import { changePassword } from "../../services/authService";
+import { forgotPassword } from "../../services/authService";
 import Router, { useRouter } from "next/router";
 
 export default function changePasswordHooks() {
@@ -15,15 +15,18 @@ export default function changePasswordHooks() {
 
   // console.log(email);
 
-  const { isLoading, mutate } = useMutation(changePassword, {
+  const { isLoading, mutate } = useMutation(forgotPassword, {
     onSuccess: (data) => {
       toast({
         position: "top",
-        title: `${data?.message}. Please check your mail for a link to reset your password.`,
+        title: `Reset code sent!`,
+        description: data?.message || "Please check your mail for a code to reset your password.",
         status: "success",
         variant: "top-accent",
         isClosable: true,
       });
+      // Redirect to reset password page
+      router.push(`/reset-password?email=${email}`);
     },
     onError: ({ response }) => {
       toast({

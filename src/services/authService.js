@@ -38,6 +38,38 @@ export const loginUser = async (payload) => {
   return data;
 };
 
+export const verifyEmail = async (payload) => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/verify-email`,
+    payload
+  );
+  return data;
+};
+
+export const resendOtp = async (payload) => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/resend-otp`,
+    payload
+  );
+  return data;
+};
+
+export const forgotPassword = async (payload) => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/forgot-password`,
+    payload
+  );
+  return data;
+};
+
+export const resetPassword = async (payload) => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/reset-password`,
+    payload
+  );
+  return data;
+};
+
 
 export const initKyc = async (payload) => {
   const { data } = await axios.post(

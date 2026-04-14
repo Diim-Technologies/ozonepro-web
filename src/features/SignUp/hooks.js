@@ -28,16 +28,17 @@ export default function signUpHooks() {
   };
 
   const { isLoading, mutate } = useMutation(registerUser, {
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       toast({
         title: "Account Created",
-        description: "Your account has been created successfully. Please log in.",
+        description: data.message || "Your account has been created successfully. Please verify your email.",
         position: "top",
         status: "success",
         duration: 5000,
         isClosable: true,
       });
-      router.push("/login"); // Redirect to login after registration
+      // Redirect to verification instead of login
+      router.push(`/verify-email?email=${variables.email}`);
     },
     onError: (error) => {
       const message = error.response?.data?.message || "Registration failed. Please try again.";

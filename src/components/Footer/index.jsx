@@ -29,10 +29,10 @@ export default function Footer() {
         <Flex flexDirection={{ base: "column", md: "column" }}>
           <Image src="/images/ozone-pro-logo.png" h="46px" w="65px" mb={39} />
           <Flex flexDirection={{ base: "column", md: "row" }}>
-            <Flex flexDirection={{ base: "column", md: "row" }} 
-            // border='1px'
-            // borderColor='#FFEDDC'
-            justifyContent='space-between'>
+            <Flex flexDirection={{ base: "column", md: "row" }}
+              // border='1px'
+              // borderColor='#FFEDDC'
+              justifyContent='space-between'>
               <Flex
                 flexDirection="column"
                 // border='1px'
@@ -46,10 +46,7 @@ export default function Footer() {
                   w={{ base: "full", md: "80%", lg: "80%", xl: "80%" }}
                   pt={2}
                 >
-                  Ozone Pro-Financial, Canada, is a Money Services
-                  Business (MSB) and it is registered and regulated with the
-                  Financial Transactions and Report Analysis Centre (FINTRAC) of
-                  Canada.
+                  Ozone Pro-Financial, Canada, is a Money Services Business (MSB) and it is registered and regulated with the Financial Transactions and Report Analysis Centre (FINTRAC) of Canada with registration number: M23193858.
                 </Text>
               </Flex>
 
@@ -57,8 +54,8 @@ export default function Footer() {
                 w={{ base: "full", md: "full" }}
                 flexDirection={{ base: "column", md: "row" }}
                 gap='100px'
-                // justifyContent="space-between"
-                // mr='150px'
+              // justifyContent="space-between"
+              // mr='150px'
               >
                 <Box pt={{ base: "30px", md: "0px" }}>
                   <Text fontWeight={600}>Quick Links</Text>
