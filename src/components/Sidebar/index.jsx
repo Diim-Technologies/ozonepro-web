@@ -117,7 +117,7 @@ export default function Sidebar({ onClose }) {
           transition="all 0.2s"
           cursor="pointer"
           _hover={{ bg: isActive ? activeBg : "gray.50", color: isActive ? activeColor : "blue.900" }}
-          onClick={onClose}
+          onClick={() => onClose && onClose()}
         >
           <Icon as={item.icon} variant={isActive ? "Bold" : "Linear"} size="22" />
           <Text fontWeight={isActive ? "700" : "600"} fontSize="sm">

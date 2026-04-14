@@ -17,9 +17,9 @@ export default function DashboardLayout({ children }) {
           <Sidebar />
         </Hide>
 
-        <Flex bgColor="blue.50" flexDirection="column" w="full" h="100vh">
+        <Flex bgColor="blue.50" flexDirection="column" w="full" minH="100vh" overflowX="hidden">
           <DashboardNavbar />
-          <Box w="full">{children}</Box>
+          <Box w="full" flex={1}>{children}</Box>
         </Flex>
       </Flex>
     </>
