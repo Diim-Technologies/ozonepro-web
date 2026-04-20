@@ -24,6 +24,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  SmallCloseIcon,
   useDisclosure,
   Select,
   Divider,
@@ -34,11 +35,13 @@ import {
   AlertIcon,
   IconButton,
   Tooltip,
+  Image,
 } from "@chakra-ui/react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { fetchAllKyc, fetchKycById, adminUpdateKycStatus } from "../../services/adminService";
 import DashboardLayout from "../../components/DashboardLayout";
 import AdminGuard from "../../components/AdminGuard";
+import { ExportCurve } from "iconsax-react";
 
 const STATUS_COLORS = {
   PENDING: "orange",
@@ -313,6 +316,34 @@ function AdminKycContent() {
     setSelectedKycId(null);
   };
 
+  const exportToCSV = () => {
+    if (!kycRecords || kycRecords.length === 0) return;
+    
+    const headers = ["ID", "User Name", "User Email", "Document Type", "Document Number", "Status", "Submitted At"];
+    const csvContent = [
+      headers.join(","),
+      ...kycRecords.map(r => [
+        r.id,
+        `"${r.user?.firstName} ${r.user?.lastName}"`,
+        r.user?.email,
+        r.documentType,
+        r.documentNumber,
+        r.verificationStatus,
+        new Date(r.createdAt).toISOString()
+      ].join(","))
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `ozone_kyc_records_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (isLoading) {
     return (
       <Flex h="80vh" align="center" justify="center" direction="column" gap={4}>
@@ -336,24 +367,34 @@ function AdminKycContent() {
   return (
     <Box p={{ base: 4, md: 8 }} bg="gray.50" minH="100vh">
       <VStack spacing={8} align="stretch">
-        {/* Header */}
-        <HStack justify="space-between" align="end" flexWrap="wrap" gap={3}>
+        <Flex justify="space-between" align="end" flexWrap="wrap" gap={3}>
           <VStack align="start" spacing={1}>
             <Heading size="lg">KYC Verifications</Heading>
             <Text color="gray.500">Monitor and manage user identity verifications.</Text>
           </VStack>
           <HStack spacing={3}>
-            <Badge colorScheme="orange" px={3} py={1} rounded="full" fontSize="sm">
-              {kycRecords?.filter((r) => r.verificationStatus === "PENDING").length || 0} Pending
-            </Badge>
-            <Badge colorScheme="green" px={3} py={1} rounded="full" fontSize="sm">
-              {kycRecords?.filter((r) => r.verificationStatus === "VERIFIED").length || 0} Verified
-            </Badge>
-            <Badge colorScheme="red" px={3} py={1} rounded="full" fontSize="sm">
-              {kycRecords?.filter((r) => r.verificationStatus === "REJECTED").length || 0} Rejected
-            </Badge>
+            <Button 
+              leftIcon={<ExportCurve />} 
+              colorScheme="blue" 
+              variant="outline" 
+              rounded="xl"
+              onClick={exportToCSV}
+            >
+              Export CSV
+            </Button>
+            <HStack spacing={3} display={{ base: "none", md: "flex" }}>
+              <Badge colorScheme="orange" px={3} py={1} rounded="full" fontSize="sm">
+                {kycRecords?.filter((r) => r.verificationStatus === "PENDING").length || 0} Pending
+              </Badge>
+              <Badge colorScheme="green" px={3} py={1} rounded="full" fontSize="sm">
+                {kycRecords?.filter((r) => r.verificationStatus === "VERIFIED").length || 0} Verified
+              </Badge>
+              <Badge colorScheme="red" px={3} py={1} rounded="full" fontSize="sm">
+                {kycRecords?.filter((r) => r.verificationStatus === "REJECTED").length || 0} Rejected
+              </Badge>
+            </HStack>
           </HStack>
-        </HStack>
+        </Flex>
 
         {/* Table */}
         <Box bg="white" p={{ base: 4, md: 8 }} rounded="3xl" boxShadow="xl" border="1px" borderColor="gray.100" overflowX="auto">
@@ -435,7 +476,6 @@ function AdminKycContent() {
         </Box>
       </VStack>
 
-      {/* Detail Modal */}
       <KycDetailModal
         kycId={selectedKycId}
         isOpen={isOpen}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Flex,
@@ -20,17 +20,117 @@ import {
   HStack,
   IconButton,
   Tooltip,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Divider,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { fetchAllUsers, updateUserStatus, softDeleteUser } from "../../services/adminService";
 import DashboardLayout from "../../components/DashboardLayout";
 import AdminGuard from "../../components/AdminGuard";
-import { Trash } from "iconsax-react";
+import { Trash, ExportCurve, Eye } from "iconsax-react";
+
+function UserDetailModal({ user, isOpen, onClose }) {
+  if (!user) return null;
+
+  const InfoItem = ({ label, value }) => (
+    <VStack align="start" spacing={0}>
+      <Text fontSize="xs" color="gray.500" fontWeight="700" textTransform="uppercase">
+        {label}
+      </Text>
+      <Text fontWeight="600">{value || "N/A"}</Text>
+    </VStack>
+  );
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <ModalOverlay backdropFilter="blur(4px)" />
+      <ModalContent rounded="2xl">
+        <ModalHeader borderBottomWidth="1px">
+          <HStack spacing={4}>
+            <Avatar size="md" name={`${user.firstName} ${user.lastName}`} />
+            <VStack align="start" spacing={0}>
+              <Text fontSize="xl" fontWeight="800">{user.firstName} {user.lastName}</Text>
+              <Text fontSize="sm" color="gray.500">User ID: {user.id}</Text>
+            </VStack>
+          </HStack>
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody py={6}>
+          <VStack spacing={6} align="stretch">
+            <Box>
+              <Heading size="xs" mb={4} color="blue.600" textTransform="uppercase">Personal Information</Heading>
+              <SimpleGrid columns={2} spacing={4}>
+                <InfoItem label="First Name" value={user.firstName} />
+                <InfoItem label="Last Name" value={user.lastName} />
+                <InfoItem label="Email Address" value={user.email} />
+                <InfoItem label="Phone Number" value={user.phone} />
+                <InfoItem label="Joined On" value={new Date(user.createdAt).toLocaleString()} />
+                <InfoItem label="Last Updated" value={new Date(user.updatedAt).toLocaleString()} />
+              </SimpleGrid>
+            </Box>
+
+            <Divider />
+
+            <Box>
+              <Heading size="xs" mb={4} color="blue.600" textTransform="uppercase">Account Status</Heading>
+              <SimpleGrid columns={2} spacing={4}>
+                <VStack align="start" spacing={0}>
+                  <Text fontSize="xs" color="gray.500" fontWeight="700" textTransform="uppercase">Current Status</Text>
+                  <Badge colorScheme={user.status === "ACTIVE" ? "green" : "red"} px={3} py={1} rounded="full">
+                    {user.status}
+                  </Badge>
+                </VStack>
+                <VStack align="start" spacing={0}>
+                  <Text fontSize="xs" color="gray.500" fontWeight="700" textTransform="uppercase">Email Verified</Text>
+                  <Badge colorScheme={user.isEmailVerified ? "green" : "orange"} px={3} py={1} rounded="full">
+                    {user.isEmailVerified ? "VERIFIED" : "PENDING"}
+                  </Badge>
+                </VStack>
+              </SimpleGrid>
+            </Box>
+
+            <Divider />
+
+            <Box>
+              <Heading size="xs" mb={4} color="blue.600" textTransform="uppercase">KYC & Activity</Heading>
+              <SimpleGrid columns={2} spacing={4}>
+                <VStack align="start" spacing={0}>
+                  <Text fontSize="xs" color="gray.500" fontWeight="700" textTransform="uppercase">KYC Status</Text>
+                  <Badge 
+                    colorScheme={user.kyc?.verificationStatus === "VERIFIED" ? "green" : user.kyc?.verificationStatus === "REJECTED" ? "red" : "orange"} 
+                    px={3} py={1} rounded="full"
+                  >
+                    {user.kyc?.verificationStatus || "NOT STARTED"}
+                  </Badge>
+                </VStack>
+                <InfoItem label="Total Transactions" value={user._count?.transfers || 0} />
+              </SimpleGrid>
+            </Box>
+          </VStack>
+        </ModalBody>
+        <ModalFooter borderTopWidth="1px">
+          <Button variant="ghost" mr={3} onClick={onClose}>Close</Button>
+          <Button colorScheme="blue" onClick={onClose}>Done</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
 
 function AdminUsersContent() {
   const queryClient = useQueryClient();
   const toast = useToast();
   const { data: users, isLoading } = useQuery("allUsers", fetchAllUsers);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const statusMutation = useMutation(
     ({ id, status }) => updateUserStatus(id, status),
@@ -66,6 +166,40 @@ function AdminUsersContent() {
     }
   };
 
+  const handleViewDetails = (user) => {
+    setSelectedUser(user);
+    onOpen();
+  };
+
+  const exportToCSV = () => {
+    if (!users || users.length === 0) return;
+    
+    const headers = ["ID", "First Name", "Last Name", "Email", "Phone", "Status", "Joined", "Total Transfers"];
+    const csvContent = [
+      headers.join(","),
+      ...users.map(u => [
+        u.id,
+        u.firstName,
+        u.lastName,
+        u.email,
+        u.phone || "",
+        u.status,
+        new Date(u.createdAt).toISOString(),
+        u._count?.transfers || 0
+      ].join(","))
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `ozone_users_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (isLoading) {
     return (
       <Flex h="80vh" align="center" justify="center">
@@ -77,10 +211,21 @@ function AdminUsersContent() {
   return (
     <Box p={{ base: 4, md: 8 }} bg="gray.50" minH="100vh">
       <VStack spacing={8} align="stretch">
-        <VStack align="start" spacing={1}>
-          <Heading size="lg">Manage Users</Heading>
-          <Text color="gray.500">View and manage all registered users.</Text>
-        </VStack>
+        <Flex justify="space-between" align="center">
+          <VStack align="start" spacing={1}>
+            <Heading size="lg">Manage Users</Heading>
+            <Text color="gray.500">View and manage all registered users.</Text>
+          </VStack>
+          <Button 
+            leftIcon={<ExportCurve />} 
+            colorScheme="blue" 
+            variant="outline" 
+            rounded="xl"
+            onClick={exportToCSV}
+          >
+            Export CSV
+          </Button>
+        </Flex>
 
         <Box bg="white" p={8} rounded="3xl" boxShadow="xl" border="1px" borderColor="gray.100">
           <TableContainer>
@@ -91,6 +236,7 @@ function AdminUsersContent() {
                   <Th>Email</Th>
                   <Th>Phone</Th>
                   <Th>Status</Th>
+                  <Th>KYC</Th>
                   <Th>Joined</Th>
                   <Th>Actions</Th>
                 </Tr>
@@ -116,9 +262,30 @@ function AdminUsersContent() {
                         {user.status}
                       </Badge>
                     </Td>
+                    <Td>
+                      <Badge 
+                        colorScheme={user.kyc?.verificationStatus === "VERIFIED" ? "green" : user.kyc?.verificationStatus === "REJECTED" ? "red" : "orange"} 
+                        variant="soft" 
+                        rounded="full" 
+                        px={2}
+                        fontSize="xs"
+                      >
+                        {user.kyc?.verificationStatus || "NONE"}
+                      </Badge>
+                    </Td>
                     <Td fontSize="sm" color="gray.500">{new Date(user.createdAt).toLocaleDateString()}</Td>
                     <Td>
                       <HStack spacing={2}>
+                        <Tooltip label="View Details">
+                           <IconButton
+                             size="xs"
+                             icon={<Eye size="16" variant="Bold" />}
+                             colorScheme="blue"
+                             variant="ghost"
+                             aria-label="View Details"
+                             onClick={() => handleViewDetails(user)}
+                           />
+                        </Tooltip>
                         <Button 
                           size="xs" 
                           colorScheme={user.status === "ACTIVE" ? "orange" : "green"}
@@ -146,6 +313,12 @@ function AdminUsersContent() {
           </TableContainer>
         </Box>
       </VStack>
+
+      <UserDetailModal 
+        user={selectedUser} 
+        isOpen={isOpen} 
+        onClose={onClose} 
+      />
     </Box>
   );
 }
