@@ -240,6 +240,7 @@ export default function ProfilePage() {
             </Box>
           </MotionBox>
 
+          <SimpleGrid columns={{ base: 1, lg: 12 }} spacing={10} w="full">
             {/* Left Sidebar: Detailed Info */}
             <Stack spacing={8} gridColumn={{ lg: "span 4" }}>
               <GlassCard>
