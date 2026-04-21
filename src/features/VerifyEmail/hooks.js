@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useMutation } from "react-query";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { verifyEmail, resendOtp } from "../../services/authService";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function verifyHooks() {
   const router = useRouter();
@@ -10,6 +11,7 @@ export default function verifyHooks() {
   const { email } = router.query;
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(60);
+  const { user, handleUser } = useContext(UserContext);
 
   useEffect(() => {
     let interval = null;
@@ -28,21 +30,42 @@ export default function verifyHooks() {
     {
       onSuccess: (data) => {
         toast({
-          title: "Verification Successful!",
+          title: "Email Verified!",
           description: "Your email has been verified. Welcome to Ozone!",
           status: "success",
           position: "top",
-          duration: 5000,
+          duration: 4000,
           isClosable: true,
         });
-        
-        // Wait a bit to show success then redirect to login or dashboard
+
+        // Update the user in context so isEmailVerified becomes true
+        // This allows the DashboardLayout guard to pass
+        if (user) {
+          const updatedUser = { ...user, isEmailVerified: true };
+          handleUser(updatedUser);
+        }
+
+        // Determine where to send the user:
+        // - If they have a token (came from login), go to dashboard
+        // - If no token, they need to log in (came from registration)
+        const hasToken = !!localStorage.getItem("ozone_access_token");
         setTimeout(() => {
-          router.push("/login"); // User can log in now
+          if (hasToken) {
+            const role = user?.role || data?.user?.role;
+            if (role === "ADMIN") {
+              router.push("/admin");
+            } else {
+              router.push("/dashboard");
+            }
+          } else {
+            router.push("/login");
+          }
         }, 1500);
       },
       onError: (error) => {
-        const message = error.response?.data?.message || "Verification failed. Please try again.";
+        const message =
+          error.response?.data?.message ||
+          "Verification failed. Please try again.";
         toast({
           title: "Error",
           description: message,
@@ -67,10 +90,11 @@ export default function verifyHooks() {
           duration: 5000,
           isClosable: true,
         });
-        setTimer(60); // Reset timer
+        setTimer(60); // Reset countdown
       },
       onError: (error) => {
-        const message = error.response?.data?.message || "Failed to resend OTP.";
+        const message =
+          error.response?.data?.message || "Failed to resend OTP.";
         toast({
           title: "Error",
           description: message,
@@ -89,6 +113,7 @@ export default function verifyHooks() {
         title: "Missing Email",
         description: "Could not find email address for verification.",
         status: "error",
+        position: "top",
       });
       return;
     }
@@ -101,6 +126,7 @@ export default function verifyHooks() {
         title: "Missing Email",
         description: "Could not find email address to resend OTP.",
         status: "error",
+        position: "top",
       });
       return;
     }

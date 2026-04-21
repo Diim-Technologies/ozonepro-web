@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import {
   Flex,
@@ -32,6 +32,13 @@ export default function VerifyEmailPage() {
     timer,
   } = verifyHooks();
 
+  // Determine if user is coming from the login flow (token already set)
+  const hasToken =
+    typeof window !== "undefined" &&
+    !!localStorage.getItem("ozone_access_token");
+  const backHref = hasToken ? "/login" : "/signup";
+  const backLabel = hasToken ? "Back to Login" : "Back to Sign Up";
+
   const bgGradient = useColorModeValue(
     "linear(to-br, blue.50, white)",
     "linear(to-br, gray.900, blue.900)"
@@ -54,9 +61,11 @@ export default function VerifyEmailPage() {
             Almost <Text as="span" color="primary.500">There.</Text>
           </Heading>
           <Text fontSize="xl" color="gray.600" fontWeight="500">
-            Check your inbox for a verification code. We just want to make sure it's really you.
+            {hasToken
+              ? "One quick step — verify your email to unlock your dashboard."
+              : "Check your inbox for a verification code. We just want to make sure it's really you."}
           </Text>
-          <Link href="/signup">
+          <Link href={backHref}>
             <Button
               variant="outline"
               colorScheme="primary"
@@ -65,7 +74,7 @@ export default function VerifyEmailPage() {
               leftIcon={<ArrowLeft size="20" />}
               px={10}
             >
-              Back to Sign Up
+              {backLabel}
             </Button>
           </Link>
         </VStack>

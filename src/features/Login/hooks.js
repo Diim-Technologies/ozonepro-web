@@ -28,6 +28,11 @@ export default function loginHooks() {
       localStorage.setItem("user_id", data.user.id);
 
       handleUser(data.user);
+      
+      if (data.requiresVerification || !data.user.isEmailVerified) {
+        router.push(`/verify-email?email=${data.user.email}`);
+        return;
+      }
 
       if (data.user.role === "ADMIN") {
         router.push("/admin");
