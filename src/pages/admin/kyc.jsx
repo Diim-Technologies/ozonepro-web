@@ -318,7 +318,7 @@ function AdminKycContent() {
 
   const exportToCSV = () => {
     if (!kycRecords || kycRecords.length === 0) return;
-    
+
     const headers = ["ID", "User Name", "User Email", "Document Type", "Document Number", "Status", "Submitted At"];
     const csvContent = [
       headers.join(","),
@@ -373,10 +373,10 @@ function AdminKycContent() {
             <Text color="gray.500">Monitor and manage user identity verifications.</Text>
           </VStack>
           <HStack spacing={3}>
-            <Button 
-              leftIcon={<ExportCurve />} 
-              colorScheme="blue" 
-              variant="outline" 
+            <Button
+              leftIcon={<ExportCurve />}
+              colorScheme="blue"
+              variant="outline"
               rounded="xl"
               onClick={exportToCSV}
             >

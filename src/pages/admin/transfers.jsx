@@ -71,14 +71,14 @@ function TransferDetailModal({ transfer, isOpen, onClose }) {
                 <InfoItem label="Fees" value={`${transfer.feeAmount} ${transfer.senderCurrency}`} />
                 <InfoItem label="Total Paid" value={`${transfer.totalAmount} ${transfer.senderCurrency}`} />
                 <VStack align="start" spacing={0}>
-                   <Text fontSize="xs" color="gray.500" fontWeight="700" textTransform="uppercase">Status</Text>
-                   <Badge 
-                     colorScheme={transfer.status === "COMPLETED" ? "green" : transfer.status === "PENDING" ? "orange" : "red"} 
-                     rounded="full" px={3} py={1}
-                     variant="subtle"
-                   >
-                     {transfer.status}
-                   </Badge>
+                  <Text fontSize="xs" color="gray.500" fontWeight="700" textTransform="uppercase">Status</Text>
+                  <Badge
+                    colorScheme={transfer.status === "COMPLETED" ? "green" : transfer.status === "PENDING" ? "orange" : "red"}
+                    rounded="full" px={3} py={1}
+                    variant="subtle"
+                  >
+                    {transfer.status}
+                  </Badge>
                 </VStack>
               </SimpleGrid>
             </Box>
@@ -153,13 +153,13 @@ function AdminTransfersContent() {
 
   const exportToCSV = () => {
     if (!transfers || transfers.length === 0) return;
-    
+
     const headers = [
-      "Reference", "Sender Name", "Sender Email", "Recipient Name", "Recipient Bank", 
-      "Recipient Account", "Amount Sent", "Currency", "Destination Amount", "Dest Currency", 
+      "Reference", "Sender Name", "Sender Email", "Recipient Name", "Recipient Bank",
+      "Recipient Account", "Amount Sent", "Currency", "Destination Amount", "Dest Currency",
       "Status", "Date"
     ];
-    
+
     const csvContent = [
       headers.join(","),
       ...transfers.map(tx => [
@@ -212,10 +212,10 @@ function AdminTransfersContent() {
             <Heading size="lg">Manage All Transfers</Heading>
             <Text color="gray.500">Track and update the status of all international transfers.</Text>
           </VStack>
-          <Button 
-            leftIcon={<ExportCurve />} 
-            colorScheme="blue" 
-            variant="outline" 
+          <Button
+            leftIcon={<ExportCurve />}
+            colorScheme="blue"
+            variant="outline"
             rounded="xl"
             onClick={exportToCSV}
           >
@@ -255,10 +255,10 @@ function AdminTransfersContent() {
                     </Td>
                     <Td fontWeight="700">${tx.totalAmount}</Td>
                     <Td>
-                      <Badge 
-                        colorScheme={statusColors[tx.status] || "gray"} 
-                        variant="subtle" 
-                        rounded="full" 
+                      <Badge
+                        colorScheme={statusColors[tx.status] || "gray"}
+                        variant="subtle"
+                        rounded="full"
                         px={2}
                         fontSize="xs"
                       >
@@ -269,19 +269,20 @@ function AdminTransfersContent() {
                     <Td>
                       <HStack spacing={2}>
                         <Tooltip label="View Details">
-                           <IconButton
-                             size="sm"
-                             icon={<Eye size="18" variant="Bold" />}
-                             colorScheme="blue"
-                             variant="ghost"
-                             aria-label="View Details"
-                             onClick={() => handleViewDetails(tx)}
-                           />
+                          <IconButton
+                            size="sm"
+                            icon={<Eye size="18" variant="Bold" />}
+                            colorScheme="blue"
+                            variant="ghost"
+                            aria-label="View Details"
+                            onClick={() => handleViewDetails(tx)}
+                          />
+                          <span onClick={() => handleViewDetails(tx)} style={{ cursor: "pointer", color: "blue", fontSize: "12px" }}>View</span>
                         </Tooltip>
-                        <Select 
-                          size="sm" 
+                        <Select
+                          size="sm"
                           maxW="130px"
-                          value={tx.status} 
+                          value={tx.status}
                           onChange={(e) => handleStatusChange(tx.id, e.target.value)}
                           disabled={mutation.isLoading}
                           rounded="lg"
@@ -301,10 +302,10 @@ function AdminTransfersContent() {
         </Box>
       </VStack>
 
-      <TransferDetailModal 
-        transfer={selectedTransfer} 
-        isOpen={isOpen} 
-        onClose={onClose} 
+      <TransferDetailModal
+        transfer={selectedTransfer}
+        isOpen={isOpen}
+        onClose={onClose}
       />
     </Box>
   );

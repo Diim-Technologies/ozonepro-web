@@ -104,8 +104,8 @@ function UserDetailModal({ user, isOpen, onClose }) {
               <SimpleGrid columns={2} spacing={4}>
                 <VStack align="start" spacing={0}>
                   <Text fontSize="xs" color="gray.500" fontWeight="700" textTransform="uppercase">KYC Status</Text>
-                  <Badge 
-                    colorScheme={user.kyc?.verificationStatus === "VERIFIED" ? "green" : user.kyc?.verificationStatus === "REJECTED" ? "red" : "orange"} 
+                  <Badge
+                    colorScheme={user.kyc?.verificationStatus === "VERIFIED" ? "green" : user.kyc?.verificationStatus === "REJECTED" ? "red" : "orange"}
                     px={3} py={1} rounded="full"
                   >
                     {user.kyc?.verificationStatus || "NOT STARTED"}
@@ -173,7 +173,7 @@ function AdminUsersContent() {
 
   const exportToCSV = () => {
     if (!users || users.length === 0) return;
-    
+
     const headers = ["ID", "First Name", "Last Name", "Email", "Phone", "Status", "Joined", "Total Transfers"];
     const csvContent = [
       headers.join(","),
@@ -216,10 +216,10 @@ function AdminUsersContent() {
             <Heading size="lg">Manage Users</Heading>
             <Text color="gray.500">View and manage all registered users.</Text>
           </VStack>
-          <Button 
-            leftIcon={<ExportCurve />} 
-            colorScheme="blue" 
-            variant="outline" 
+          <Button
+            leftIcon={<ExportCurve />}
+            colorScheme="blue"
+            variant="outline"
             rounded="xl"
             onClick={exportToCSV}
           >
@@ -253,20 +253,20 @@ function AdminUsersContent() {
                     <Td>{user.email}</Td>
                     <Td>{user.phone || "N/A"}</Td>
                     <Td>
-                      <Badge 
-                        colorScheme={user.status === "ACTIVE" ? "green" : "red"} 
-                        variant="subtle" 
-                        rounded="full" 
+                      <Badge
+                        colorScheme={user.status === "ACTIVE" ? "green" : "red"}
+                        variant="subtle"
+                        rounded="full"
                         px={2}
                       >
                         {user.status}
                       </Badge>
                     </Td>
                     <Td>
-                      <Badge 
-                        colorScheme={user.kyc?.verificationStatus === "VERIFIED" ? "green" : user.kyc?.verificationStatus === "REJECTED" ? "red" : "orange"} 
-                        variant="soft" 
-                        rounded="full" 
+                      <Badge
+                        colorScheme={user.kyc?.verificationStatus === "VERIFIED" ? "green" : user.kyc?.verificationStatus === "REJECTED" ? "red" : "orange"}
+                        variant="soft"
+                        rounded="full"
                         px={2}
                         fontSize="xs"
                       >
@@ -277,17 +277,18 @@ function AdminUsersContent() {
                     <Td>
                       <HStack spacing={2}>
                         <Tooltip label="View Details">
-                           <IconButton
-                             size="xs"
-                             icon={<Eye size="16" variant="Bold" />}
-                             colorScheme="blue"
-                             variant="ghost"
-                             aria-label="View Details"
-                             onClick={() => handleViewDetails(user)}
-                           />
+                          <IconButton
+                            size="xs"
+                            icon={<Eye size="16" variant="Bold" />}
+                            colorScheme="blue"
+                            variant="ghost"
+                            aria-label="View Details"
+                            onClick={() => handleViewDetails(user)}
+                          />
+                          <span onClick={() => handleViewDetails(user)} style={{ cursor: "pointer", color: "blue", fontSize: "12px" }}>View</span>
                         </Tooltip>
-                        <Button 
-                          size="xs" 
+                        <Button
+                          size="xs"
                           colorScheme={user.status === "ACTIVE" ? "orange" : "green"}
                           onClick={() => handleToggleStatus(user.id, user.status)}
                           isLoading={statusMutation.isLoading}
@@ -314,10 +315,10 @@ function AdminUsersContent() {
         </Box>
       </VStack>
 
-      <UserDetailModal 
-        user={selectedUser} 
-        isOpen={isOpen} 
-        onClose={onClose} 
+      <UserDetailModal
+        user={selectedUser}
+        isOpen={isOpen}
+        onClose={onClose}
       />
     </Box>
   );
