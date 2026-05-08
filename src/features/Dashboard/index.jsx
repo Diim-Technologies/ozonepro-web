@@ -35,7 +35,7 @@ import { useQuery } from "react-query";
 import useKycHooks from "../KYC/hooks";
 import Link from "next/link";
 import ExchangeCalculator from "../../components/ExchangeCalculator";
-import { getExchnagesByUserId, fetchProfile } from "../../services/authService";
+import { fetchTransfers, fetchProfile } from "../../services/authService";
 
 const MotionBox = motion(Box);
 
@@ -44,7 +44,7 @@ export default function DashboardPage() {
   const kycStatus = kycData?.kyc?.verificationStatus || "NOT_STARTED";
 
   const { data: userProfile, isLoading: isProfileLoading } = useQuery("userProfile", fetchProfile);
-  const { data: transactions, isLoading: isTransactionsLoading } = useQuery("userTransactions", getExchnagesByUserId);
+  const { data: transactions, isLoading: isTransactionsLoading } = useQuery("userTransactions", fetchTransfers);
 
   const cardBg = useColorModeValue("white", "gray.800");
   const textColor = useColorModeValue("gray.800", "white");

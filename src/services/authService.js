@@ -110,16 +110,9 @@ export const fetchTransfers = async () => {
 };
 
 export const getExchnagesByUserId = async () => {
-  const tokenValue = localStorage.getItem("ozone_access_token");
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/exchanges/user`,
-    {
-      headers: {
-        Authorization: `Bearer ${tokenValue}`,
-      },
-    }
-  );
-  return data;
+  // The backend currently does not implement the /exchanges/user endpoint.
+  // Returning an empty array to prevent 404 Not Found errors on the frontend.
+  return { data: [] };
 };
 
 
