@@ -15,10 +15,10 @@ import {
   Badge,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { 
-  Flash, 
-  ShieldTick, 
-  Global, 
+import {
+  Flash,
+  ShieldTick,
+  Global,
   ArrowRight,
   DirectNormal,
   Award
@@ -69,11 +69,11 @@ export default function MoneyExchange() {
   return (
     <Box bg="white" overflowX="hidden">
       <Navbar />
-      
+
       {/* Hero Section */}
-      <Box 
-        position="relative" 
-        pt={{ base: "140px", md: "200px" }} 
+      <Box
+        position="relative"
+        pt={{ base: "140px", md: "200px" }}
         pb={{ base: "100px", md: "150px" }}
         bgGradient="linear(to-b, blue.900, blue.800)"
         color="white"
@@ -88,26 +88,26 @@ export default function MoneyExchange() {
                 Empowering Your <Text as="span" color="primary.500">Global</Text> Ambitions.
               </Heading>
               <Text fontSize="xl" opacity={0.8} textAlign="left" maxW="600px">
-                Ozone Pro-Financial provides seamless money exchange services with 
+                OzonePro Financial provides seamless money exchange services with
                 best-in-market rates and uncompromising security.
               </Text>
               <HStack spacing={4}>
-                <Button 
-                  size="lg" 
-                  h="70px" 
-                  px={10} 
-                  bg="primary.500" 
+                <Button
+                  size="lg"
+                  h="70px"
+                  px={10}
+                  bg="primary.500"
                   _hover={{ bg: "primary.600", transform: "translateY(-2px)" }}
                   rounded="2xl"
                   rightIcon={<ArrowRight />}
                 >
                   Get Started
                 </Button>
-                <Button 
-                  size="lg" 
-                  h="70px" 
-                  px={10} 
-                  variant="outline" 
+                <Button
+                  size="lg"
+                  h="70px"
+                  px={10}
+                  variant="outline"
                   rounded="2xl"
                   _hover={{ bg: "whiteAlpha.100" }}
                 >
@@ -142,13 +142,13 @@ export default function MoneyExchange() {
 
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10} w="full">
             {features.map((feature, i) => (
-              <VStack 
-                key={i} 
-                p={10} 
-                bg="white" 
-                rounded="3xl" 
-                boxShadow="xl" 
-                align="start" 
+              <VStack
+                key={i}
+                p={10}
+                bg="white"
+                rounded="3xl"
+                boxShadow="xl"
+                align="start"
                 spacing={6}
                 border="1px"
                 borderColor="gray.50"
@@ -176,17 +176,17 @@ export default function MoneyExchange() {
             <Text fontSize="xl" opacity={0.8} maxW="600px">
               Join over 50,000+ individuals and businesses who choose Ozone globally.
             </Text>
-            <Button 
-               size="lg" 
-               h="75px" 
-               px={12} 
-               bg="white" 
-               color="blue.900" 
-               fontSize="xl"
-               fontWeight="800"
-               rounded="2xl"
-               _hover={{ bg: "gray.100", transform: "scale(1.05)" }}
-               rightIcon={<ArrowRight />}
+            <Button
+              size="lg"
+              h="75px"
+              px={12}
+              bg="white"
+              color="blue.900"
+              fontSize="xl"
+              fontWeight="800"
+              rounded="2xl"
+              _hover={{ bg: "gray.100", transform: "scale(1.05)" }}
+              rightIcon={<ArrowRight />}
             >
               Sign Up For Free
             </Button>

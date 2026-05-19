@@ -3,10 +3,10 @@ export const sectionContentPrivacy = [
     id: "1",
     heading: "1. INTRODUCTION",
     contentArray: [
-      "1.1 At Ozone Pro-Financial Corporation, we not only take your privacy and protection of your data very seriously, we also make all practical efforts to ensure and maintain data security for all our customers. In this regard, we have partnered with a reputable and world class Know Your Client (KYC) and customer verification partner to assure of our data integrity. By signing-up to services from Ozone Pro-Financial Corporation, you are also subscribing to the extant privacy policies of our partner and third-party service provider – Persona.",
-      "1.2 As a customer of Ozone Pro-Financial Corporation, you are guaranteed absolute protection of   your   data   as   we   treat   your   personal   information   with   utmost   care   that   exceeds   expected standards of a Money Services Business.",
+      "1.1 At OzonePro Financial, we not only take your privacy and protection of your data very seriously, we also make all practical efforts to ensure and maintain data security for all our customers. In this regard, we have partnered with a reputable and world class Know Your Client (KYC) and customer verification partner to assure of our data integrity. By signing-up to services from OzonePro Financial, you are also subscribing to the extant privacy policies of our partner and third-party service provider – Persona.",
+      "1.2 As a customer of OzonePro Financial, you are guaranteed absolute protection of   your   data   as   we   treat   your   personal   information   with   utmost   care   that   exceeds   expected standards of a Money Services Business.",
       "1.3 By registering with us and using our website or any of our services, you accept and expressly consent to our use and disclosure of your personal information and direct our partner, Persona in the manner described in this Privacy Policy.",
-      "1.4 Please read the information contained hereunder very carefully, together with our Terms of Service as we explain how and on what basis information collected from you, or provided by you to us, will be processed by us through our partner, Persona in providing you with the services accessed through our website, apps or over the phone. Ozone Pro-Financial Corporation avers to using your information only in accordance with our Terms of Service and this Privacy Policy.",
+      "1.4 Please read the information contained hereunder very carefully, together with our Terms of Service as we explain how and on what basis information collected from you, or provided by you to us, will be processed by us through our partner, Persona in providing you with the services accessed through our website, apps or over the phone. OzonePro Financial avers to using your information only in accordance with our Terms of Service and this Privacy Policy.",
       "1.5 However, in case of conflict between our Terms of Service and Privacy Policy versus those from external sources, our Terms of Service shall supersede.",
     ],
   },
@@ -14,7 +14,7 @@ export const sectionContentPrivacy = [
     id: "2",
     heading: "2. ABOUT US",
     contentArray: [
-      "2.1 Ozone Pro-Financial Corporation is a Canadian corporation authorized to provide money business   services   and   to   deal   in   but   not   limited   to  currency   exchange,   international   money transfers, virtual currencies and financial advisory services. Our Services are subject to change, modification, or discontinuation at any time without prior notice.  In this Policy, references to “we” “us” and “our” refers to Ozone Pro-Financial Corporation, together with its employees, directors, successors, assigns and successors-in-interest while “you“ and “your“ are references to a user of our website and/or of our Mobile Apps",
+      "2.1 OzonePro Financial is a Canadian corporation authorized to provide money business   services   and   to   deal   in   but   not   limited   to  currency   exchange,   international   money transfers, virtual currencies and financial advisory services. Our Services are subject to change, modification, or discontinuation at any time without prior notice.  In this Policy, references to “we” “us” and “our” refers to OzonePro Financial, together with its employees, directors, successors, assigns and successors-in-interest while “you“ and “your“ are references to a user of our website and/or of our Mobile Apps",
     ],
   },
   {
@@ -42,7 +42,7 @@ export const sectionContentPrivacy = [
     id: "5",
     heading: "5. HOW YOUR PERSONAL INFORMATION IS COLLECTED BY US ",
     contentArray: [
-      "5.1  Information provided by you: The information provided when you create an account or update your account information, or when you communicate with us with respect to Ozone Pro- Financial Corporation services, participate in discussion boards or other social media functions on our Website or App, promotion or survey, and when you report a problem with our services may be collected and stored by us. Such information provided may include your name, address, e-mail   address,   phone   number,   financial   information   (including   bank   account   information), payment   reason,   geographical   location,   personal   description   and   photograph. We may also need additional identification information from you, e.g., if you send or receive certain   high-value   or   high-volume   transactions   or   as   needed   to   comply   with   our   anti-money laundering obligations under the PCMLTFA.",
+      "5.1  Information provided by you: The information provided when you create an account or update your account information, or when you communicate with us with respect to OzonePro Financial services, participate in discussion boards or other social media functions on our Website or App, promotion or survey, and when you report a problem with our services may be collected and stored by us. Such information provided may include your name, address, e-mail   address,   phone   number,   financial   information   (including   bank   account   information), payment   reason,   geographical   location,   personal   description   and   photograph. We may also need additional identification information from you, e.g., if you send or receive certain   high-value   or   high-volume   transactions   or   as   needed   to   comply   with   our   anti-money laundering obligations under the PCMLTFA.",
       "5.2  Information from other sources: We may also obtain information about you from third parties as conducted and verified by Persona, when using our reliance method. We shall rely on the   verification   conducted   by   vendor   platform   confirmed   as   being   that   of   the   person   and   be satisfied that the information is valid and current. For this, we may obtain your  name, details in your   photo   identification   card   such   as   address,   and   date   of   birth,   in   order   to   match   the information with that provided by you. These information are kept securely on our data base or on the data base of our partner – Persona.",
       "5.3  Information from social networks: If you log in to our services using your social media account   (for   example,   Facebook,   Instagram)   we   will   receive   relevant   information   that   is necessary to enable our services and authenticate you. The social media network will provide us with access to certain information that you have provided to them, including your name, profile image and e-mail address. We use such information, together with any other information you directly   provide   to   us   when   registering   or   using   our   services,   to   create   your   account   and   to communicate with you about the information, products and services that you request from us. You may also be able to specifically request that we have access to the contacts in your social media account, so that you can send a referral link to your family and friends. We will use, disclose and store all of this information in accordance with this privacy policy.",
     ],
@@ -82,7 +82,7 @@ export const sectionContentPrivacy = [
     id: "9",
     heading: "9. WHO HANDLES YOUR INFORMATION",
     contentArray: [
-      " 9.1 Most personal information that Ozone Pro-Financial Corporation collects is processed by our own staff, however, for back up purposes, we also rely on our third party service provider and partner, Persona. The personal information collected is processed by our partner, Persona who is legally bound to confidentiality and trained on security, confidentiality and privacy and also by using Ozone Pro Financial Corporation staff who have received training in the importance of security, confidentiality, and privacy.",
+      " 9.1 Most personal information that OzonePro Financial Corporation collects is processed by our own staff, however, for back up purposes, we also rely on our third party service provider and partner, Persona. The personal information collected is processed by our partner, Persona who is legally bound to confidentiality and trained on security, confidentiality and privacy and also by using Ozone Pro Financial Corporation staff who have received training in the importance of security, confidentiality, and privacy.",
     ],
   },
   {
@@ -91,7 +91,7 @@ export const sectionContentPrivacy = [
     contentArray: [
       "10.1 We take reasonable and appropriate measures to protect the security and confidentiality of your   personal   information.   These   measures   include   technical,   administrative,   and   physical safeguards designed to prevent unauthorized access, use, or disclosure of your information.",
       "10.2   We   maintain   physical,   electronic   and   procedural   safeguards   in   connection   with   the collection, storage and disclosure of your personal information. Our security procedures implies that we may ask you to verify your identity before we disclose personal information to you.",
-      "10.3 We recommend using a unique password for your Ozone Pro-Financial Corporation account that is not utilized for other online accounts to help protect against unauthorized access.",
+      "10.3 We recommend using a unique password for your OzonePro Financial Corporation account that is not utilized for other online accounts to help protect against unauthorized access.",
       "10.4 We further recommend that you always sign off when you finish using your device or a shared computer.",
     ],
   },
@@ -129,7 +129,7 @@ export const sectionContentPrivacy = [
     heading: "15. CONTACT US ",
     contentArray: [
       "15.1.   If   you   have   any   questions,   concerns,   or   requests   regarding   this   Privacy   Policy   or   our privacy practices, please contact us at:",
-      "\n\n\n OZONE PRO-FINANCIAL CORPORATION 2004",
+      "\n\n\n OzonePro Financial CORPORATION 2004",
       "\n\n\n Birch Crescent, SE Calgary",
       "\n\n\n Alberta T2B 1P3 ",
       "\n\n\n ozo@ozoneprofinancial.com",

@@ -31,23 +31,23 @@ import exchangeCalculatorHooks from "../../components/ExchangeCalculator/hooks";
 
 export default function HomePage() {
   const { comingSoonPairs } = exchangeCalculatorHooks()
-  const [firstPairsArray,setFirstPairsArray] = useState([])
-  const [secondPairsArray,setSecondPairsArray] = useState([])
+  const [firstPairsArray, setFirstPairsArray] = useState([])
+  const [secondPairsArray, setSecondPairsArray] = useState([])
 
 
   useEffect(() => {
     if (comingSoonPairs) {
-    const firstData = comingSoonPairs['data'].map(pair => 
-      pair.substring(0,3)
-    )
-    setFirstPairsArray(firstData)
-    const secondData = comingSoonPairs['data'].map(pair => 
-      pair.substring(pair.length - 3)
-    )
-    setSecondPairsArray(secondData)
+      const firstData = comingSoonPairs['data'].map(pair =>
+        pair.substring(0, 3)
+      )
+      setFirstPairsArray(firstData)
+      const secondData = comingSoonPairs['data'].map(pair =>
+        pair.substring(pair.length - 3)
+      )
+      setSecondPairsArray(secondData)
     }
 
-  },[comingSoonPairs])
+  }, [comingSoonPairs])
   const router = useRouter();
   const { clientPhoneNumber } = useContext(UserContext);
   const handleChat = (event) => {
@@ -163,7 +163,7 @@ export default function HomePage() {
                       track of your finances in multiple currencies.
                     </Text>
                   </VStack>
-                  
+
                   <CustomButton
                     route="/money-exchange"
                     w="220px"
@@ -175,10 +175,10 @@ export default function HomePage() {
 
                   {/* Coming Soon Section */}
                   <Box w="full" pt={6}>
-                    <Flex 
-                      bg="white" 
-                      p={6} 
-                      rounded="2xl" 
+                    <Flex
+                      bg="white"
+                      p={6}
+                      rounded="2xl"
                       boxShadow="sm"
                       direction="column"
                       gap={4}
@@ -228,10 +228,10 @@ export default function HomePage() {
                       Bookkeeping, Tax filing & Limited Currency Exchange Service.
                     </Text>
                   </VStack>
-                  
-                  <CustomButton 
-                    route="/accounting" 
-                    w="220px" 
+
+                  <CustomButton
+                    route="/accounting"
+                    w="220px"
                     bg="primary.500"
                     boxShadow="0 10px 20px -5px rgba(214, 51, 58, 0.4)"
                   >
@@ -271,7 +271,7 @@ export default function HomePage() {
           py="20px"
           w={{ md: "65%", lg: "65%", xl: "65%" }}
         >
-          Using Ozone Pro-Financial Services you can enjoy a range of benefits
+          Using OzonePro Financial Services you can enjoy a range of benefits
         </Heading>
         <Box overflow="hidden">
           <Image

@@ -155,7 +155,7 @@ const NewTerms = () => {
           paddingLeft={{ md: "40px", base: "23px" }}
           paddingTop="45px"
           id="sectionContent"
-          // w={{ md: "800px", lg: "978px" }}
+        // w={{ md: "800px", lg: "978px" }}
         >
           <Box mb={{ lg: "20px", base: "" }}>
             <Heading
@@ -166,7 +166,7 @@ const NewTerms = () => {
               paddingBottom={{ base: "17px" }}
               w={{ md: "600px", lg: "978px" }}
             >
-              Terms of Service for Ozone Pro-Financial Corporation
+              Terms of Service for OzonePro Financial Corporation
             </Heading>
             <Text
               mt={{ lg: "10px" }}
@@ -225,18 +225,18 @@ const NewTerms = () => {
                     style={{
                       fontWeight:
                         content.substring(0, 1).includes("(") ||
-                        content.substring(0, 1).includes(")")
+                          content.substring(0, 1).includes(")")
                           ? "normal"
                           : "bold",
                       paddingRight:
                         content.substring(0, 1).includes("(") ||
-                        content.substring(0, 1).includes(")")
+                          content.substring(0, 1).includes(")")
                           ? "0px"
                           : "25px",
                       marginLeft:
                         content.substring(0, 1).includes("(") ||
-                        content.substring(0, 1).includes(")") ||
-                        content.substring(0, 1).includes("-")
+                          content.substring(0, 1).includes(")") ||
+                          content.substring(0, 1).includes("-")
                           ? "20px"
                           : "0px",
                     }}

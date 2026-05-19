@@ -46,10 +46,10 @@ export default function Footer() {
                   w={{ base: "full", md: "80%", lg: "80%", xl: "80%" }}
                   pt={2}
                 >
-                  Ozone Pro-Financial, Canada, is a Money Services Business (MSB) and it is registered and regulated with the Financial Transactions and Report Analysis Centre (FINTRAC) of Canada with registration number: M23193858.
+                  OzonePro Financial, Canada, is a Money Services Business (MSB) and it is registered and regulated with the Financial Transactions and Report Analysis Centre (FINTRAC) of Canada with registration number: M23193858.
                 </Text>
               </Flex>
-  <Flex
+              <Flex
                 w={{ base: "full", md: "full" }}
                 flexDirection={{ base: "column", md: "row" }}
                 gap='100px'

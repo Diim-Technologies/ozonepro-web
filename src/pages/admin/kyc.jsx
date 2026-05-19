@@ -182,19 +182,26 @@ function KycDetailModal({ kycId, isOpen, onClose }) {
               </Box>
 
               {/* Provider Session Data (if available) */}
-              {providerData?.session_id && (
+              {providerData && Object.keys(providerData).length > 0 && (
                 <>
                   <Divider />
                   <Box>
                     <Text fontWeight="700" fontSize="sm" color="gray.400" textTransform="uppercase" mb={3}>
-                      Didit Session Data
+                      KYC Full Details (Provider Data)
                     </Text>
-                    <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
-                      <InfoRow label="Session ID" value={providerData.session_id} mono />
-                      {providerData.status && (
-                        <InfoRow label="Provider Status" value={providerData.status} />
-                      )}
-                    </Grid>
+                    <Box
+                      bg="gray.800"
+                      color="green.400"
+                      p={4}
+                      rounded="xl"
+                      overflowX="auto"
+                      fontSize="sm"
+                      fontFamily="mono"
+                      maxH="400px"
+                      overflowY="auto"
+                    >
+                      <pre>{JSON.stringify(providerData, null, 2)}</pre>
+                    </Box>
                   </Box>
                 </>
               )}

@@ -52,6 +52,11 @@ export const updateUserStatus = async (id, status) => {
   return data;
 };
 
+export const adminUpdateUserDetails = async ({ id, ...payload }) => {
+  const { data } = await authedFetch.patch(`${BASE_URL}/admin/users/${id}`, payload);
+  return data;
+};
+
 export const fetchAllExchangeRates = async () => {
   const { data } = await authedFetch.get(`${BASE_URL}/admin/exchange-rates`);
   return data;
