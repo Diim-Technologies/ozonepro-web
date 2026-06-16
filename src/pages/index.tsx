@@ -23,6 +23,10 @@ export default function OutOfService() {
           <Text fontSize="sm" color="gray.400" mt={2}>
             We apologize for the inconvenience. Please check back later.
           </Text>
+          <Text fontSize="sm" color="gray.500" mt={4}>
+            For all enquiries regarding previous transactions, do reach us
+            on: <Text as="span" fontWeight="bold">587 288 7411</Text>
+          </Text>
         </VStack>
       </Center>
     </>
